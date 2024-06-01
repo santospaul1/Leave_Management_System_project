@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+{% include 'admin/top.html' %}
+</head>
+<body>
+    <!-- preloader area start -->
+   {% include 'admin/sidebars.html' %}
+    <!-- Include your header, sidebar, and navigation as needed -->
+
+    <div class="main-content-inner">
+        <div class="row">
+            <div class="col-12 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="single-table">
+                            <div class="table-responsive">
+                                <table class="table table-hover table-striped table-bordered progress-table text-center">
+                                    <thead class="text-uppercase">
+                                        <tr>
+                                            <th>S.N</th>
+                                            <th>Employee ID</th>
+                                            <th>Full Name</th>
+                                            <th>Department</th>
+                                            <th>Leave Type</th>
+                                            <th>Applied On</th>
+                                            <th>Current Status</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for leave in leave_history %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ leave.employee }}</td>
+                                                <td>{{ leave.name.id }} {{ leave.name.lastName }}</td>
+                                                <td>{{employee.department}}</td>
+                                                <td>{{ leave.leavetype }}</td>
+
+                                                <td>{{ leave.posting_date }}</td>
+                                                <td>
+                                                    {% if leave.status == '1' %}
+                                                        Approved <i class="fa fa-check-square-o"></i></span>
+                                                    {% elif leave.status == '2' %}
+                                                        <span style="color: red">Declined <i class="fa fa-times"></i></span>
+                                                    {% else %}
+                                                        <span style="color: blue">Pending <i class="fa fa-spinner"></i></span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <td><a href="{% url 'myadmin:employee_leave_details' leave.id %}" class="btn btn-secondary btn-sm">View Details</a></td>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+    <!-- jquery latest version -->
+{% include 'admin/bottom.html' %}
+
+
+    <!-- Include your footer and JavaScript files as needed -->
+
+</body>
+</html>
