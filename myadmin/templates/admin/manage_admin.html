@@ -1,12 +1,10 @@
+{% extends 'admin/main.html' %}
+
 {% load static %}
+{% block content %}
 
 
-<html class="no-js" lang="en">
-<head>
- {% include 'admin/top.html' %}
-</head>
-<body>
- {% include 'admin/sidebars.html' %}
+
     <!-- preloader area start -->
 {% if messages %}
   {% for message in messages %}
@@ -25,7 +23,7 @@
                                     <table id="dataTable3" class="table table-striped table-hover text-center">
                                         <thead class="text-capitalize">
                                             <tr>
-                                                <th>#</th>
+                                                <th>No.</th>
                                                 <th>Username</th>
                                                 <th>Name</th>
                                                 <th>Email ID</th>
@@ -52,17 +50,7 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <!-- Dark table end -->
-                </div>
-                <!-- row area end -->
-            </div>
-            <!-- Include your footer content here -->
-        </div>
-        </div>
-      <!-- jquery latest version -->
- {% include 'admin/bottom.html' %}
+                        
 
-</body>
-</html>
+
+{% endblock %}
