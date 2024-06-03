@@ -1,4 +1,4 @@
-from myadmin.models import *
+from employee.models import *
 from django import forms
 class PasswordRecoveryForm(forms.Form):
     email = forms.EmailField()

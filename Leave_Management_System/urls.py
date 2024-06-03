@@ -17,15 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from myadmin.views import admin_login, dashboard
+from accounts.views import employee_login
+
 
 urlpatterns = [
-    path('', admin_login, name='admin_login'),
-    path('dashboard', dashboard, name='dashboard'),
+    path('', employee_login, name='employee_login'),
     path("admin/", admin.site.urls),
 
-    path(' ', include('myadmin.urls')),
+    path('', include('accounts.urls')),
+    path('myadmin', include('myadmin.urls')),
     path('employee/',include('employee.urls') ),
     path('department/', include('department.urls')),
+    path('leave/', include('leave.urls'))
 
 ]
