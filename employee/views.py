@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 def employees(request):
 
     if not request.user.is_authenticated:
-        return redirect('admin_login')  # Redirect to the appropriate URL
+        return redirect('myadmin:admin_login')  # Redirect to the appropriate URL
 
     msg = None
 
@@ -147,7 +147,7 @@ def update_profile(request, empcode):
     form = ProfileUpdateForm(request.POST, instance=employee)
     if form.is_valid():
       form.save()
-      return redirect('employee_panel:apply_leave')
+      return redirect('leave:apply_leave')
 
   return render(request, 'employee/update_profile.html', {'form': form, 'employee': employee})
 

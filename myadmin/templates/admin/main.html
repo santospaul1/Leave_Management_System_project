@@ -45,10 +45,16 @@
             <li class="{% if request.resolver_match.url_name == '' %}active{% endif %}">
               <a href="#manageLeaveSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><span class="fa fa-clone mr-3 text-white"></span>Manage Leave</a>
               <ul class="collapse list-unstyled" id="manageLeaveSubmenu">
-                <li><a href="#"><i class="fa fa-spinner"></i> Pending</a></li>
-                <li><a href="#"><i class="fa fa-check"></i> Approved</a></li>
-                <li><a href="#"><i class="fa fa-times-circle"></i> Declined</a></li>
-                <li><a href="#"><i class="fa fa-history"></i> Leave History</a></li>
+                <li class="{% if request.resolver_match.url_name == 'pending_leaves' %}active{% endif %}">
+                  <a href="{% url 'leave:pending_leaves' %}"><i class="fa fa-spinner mr-3"></i> Pending</a></li>
+                  <li class="{% if request.resolver_match.url_name == 'approved_leaves' %}active{% endif %}">
+                    <a href="{% url 'leave:approved_leaves' %}"><i class="fa fa-check-square mr-3"></i> Approved</a></li>
+                  </li>
+                <li class="{% if request.resolver_match.url_name == 'declined_leaves mr-3' %}active{% endif %}">
+                  <a href="{% url 'leave:declined_leaves' %}"><i class="fa fa-times mr-3"></i> Declined</a></li>
+                  <li class="{% if request.resolver_match.url_name == 'leave_history' %}active{% endif %}">
+                    <a href="{% url 'leave:leave_history' %}"><i class="fa fa-history mr-3"></i>Leave History</a></li>
+                  </li>
               </ul>
             </li>
             <li class="{% if request.resolver_match.url_name == 'manage_admin' %}active{% endif %}">

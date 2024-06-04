@@ -199,6 +199,7 @@ def apply_leave(request):
 
                 leave.save()
                 msg = "Your leave application has been applied. Thank you."
+                return redirect('leave:employee_leave_history')
 
         else:
             error = "Please correct the form errors."
@@ -216,7 +217,7 @@ def apply_leave(request):
 @login_required
 def employee_leave_history(request):
     user = request.user
-    leave_history = Leave.objects.filter(employee=user.id)
+    leave_history = Leave.objects.filter(employee=user.id).order_by('-id')
     status = Leave.status
     context = {
         'status':status,

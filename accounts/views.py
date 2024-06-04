@@ -35,7 +35,7 @@ def employee_login(request):
             if user.is_active:
                 if user.employee.status == 'Active':
                     login(request, user)
-                    return redirect('employee_panel:apply_leave')
+                    return redirect('leave:apply_leave')
                 else:
                     error = 'Your account is inactive. Please contact the administrator for assistance.'
             else:
