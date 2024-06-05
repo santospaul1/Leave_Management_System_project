@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from department.models import Department
+
 # Create your models here.
 
 STATUS_CHOICES = (
@@ -20,8 +22,6 @@ class LeaveType(models.Model):
 
 class Leave(models.Model):
     employee = models.ForeignKey(User, on_delete=models.CASCADE)
-
-    leave_type = models.CharField(max_length=100, default='Annual')
     posting_date = models.DateField(auto_now_add=True)
     status = models.CharField(
         max_length=10,

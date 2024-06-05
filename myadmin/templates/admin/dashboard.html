@@ -15,7 +15,7 @@
                                         <h4 class="header-title mb-0">Available Leave Types</h4>
                                     </div>
                                     <div class="d-flex justify-content-between pb-2">
-                                        <h1></h1>
+                                        <h1>{{ count_leavetype }}</h1>
                                         <span>Leave Types</span>
                                     </div>
                                 </div>
@@ -29,7 +29,7 @@
                                         <h4 class="header-title mb-0">Registered Employees</h4>
                                     </div>
                                     <div class= "d-flex justify-content-between pb-2">
-                                        <h1></h1>
+                                        <h1>{{ count_employees }}</h1>
                                         <span>Active Employees</span>
                                     </div>
                                 </div>
@@ -43,7 +43,7 @@
                                         <h4 class="header-title mb-0">Available Departments</h4>
                                     </div>
                                     <div class="d-flex justify-content-between pb-2">
-                                        <h1></h1>
+                                        <h1>{{ count_department}}</h1>
                                         <span>Department</span>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                         <h4 class="header-title mb-0">Pending Application</h4>
                                     </div>
                                     <div class="d-flex justify-content-between pb-2">
-                                        <h1></h1>
+                                        <h1>{{ count_pending }}</h1>
                                         <span>pending</span>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                                         <h4 class="header-title mb-0">Declined Application</h4>
                                     </div>
                                     <div class="d-flex justify-content-between pb-2">
-                                        <h1></h1>
+                                        <h1>{{ count_declined }}</h1>
                                         <span>Declined</span>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                                         <h4 class="header-title mb-0">Approved Application</h4>
                                     </div>
                                     <div class="d-flex justify-content-between pb-2">
-                                        <h1></h1>
+                                        <h1>{{ count_approved }}</h1>
                                         <span>Approved</span>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
 
                                                     </td>
 
-                                                    <td><a href="{% url 'myadmin:employee_leave_details' leave.id %}" class="btn btn-secondary btn-sm">View Details</a></td>
+                                                    <td><a href="{% url 'leave:employee_leave_details' leave.id %}" class="btn btn-secondary btn-sm">View Details</a></td>
 
                                                 </tr>
                                             {% endfor %}

@@ -228,10 +228,5 @@ def employee_leave_history(request):
     return render(request, 'employee/leave_history.html', context)
 
 
-@login_required()
-def logout(request):
-    # Clear session data
-    request.session.flush()
-    return redirect('accounts:employee_login')  # Redirect to the 'index' URL name or any other URL
 
 

@@ -4,6 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
+
+from department.models import Department
+from employee.models import Employee
+from leave.models import Leave, LeaveType
 from .forms import AdminForm
 from .models import Admin
 
@@ -31,11 +35,25 @@ def user_logout(request):
 def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('admin_login')
+    
+    count_employees = Employee.objects.count()
+    count_leavetype = LeaveType.objects.count()
+    count_department = Department.objects.count()
+    count_pending = Leave.objects.filter(status = 0).count()
+    count_approved = Leave.objects.filter(status = 1).count()
+    count_declined = Leave.objects.filter(status = 2).count()
+    leaves = Leave.objects.order_by('-id')[:7]
 
     
     context = {
         'page': 'dashboard',
-        
+        'count_employees': count_employees,
+        'count_leavetype': count_leavetype,
+        'count_department': count_department,
+        'count_pending': count_pending,
+        'count_approved': count_approved,
+        'count_declined': count_declined,
+        'leaves':leaves
         
     }
 
