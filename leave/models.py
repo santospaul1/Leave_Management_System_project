@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from department.models import Department
+from employee.models import Employee
 
 # Create your models here.
 
@@ -21,7 +22,7 @@ class LeaveType(models.Model):
 
 
 class Leave(models.Model):
-    employee = models.ForeignKey(User, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     posting_date = models.DateField(auto_now_add=True)
     status = models.CharField(
         max_length=10,

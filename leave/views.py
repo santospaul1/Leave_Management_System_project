@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 
+from employee.models import Employee
 from leave.forms import LeaveActionForm, LeaveForm, LeaveTypeForm
 
 from django.contrib.auth.decorators import login_required
@@ -165,68 +166,65 @@ def pending_leaves(request):
 
 @login_required
 def apply_leave(request):
-    error = ''
-    msg = ''
-
-    if request.method == "POST":
+    error = None
+    msg = None
+    if request.method == 'POST':
         form = LeaveForm(request.POST)
-
         if form.is_valid():
-            user = request.user  # Get the currently logged-in User instance
-            leavetype = form.cleaned_data['leavetype']
             fromdate = form.cleaned_data['fromdate']
             todate = form.cleaned_data['todate']
+            leavetype = form.cleaned_data['leavetype']
             description = form.cleaned_data['description']
 
-            #employee = Employee.objects.all(empcode=id)
-            # Calculate date difference
-            date_difference = (todate - fromdate).days
+            # Get the Employee instance associated with the logged-in user
+            try:
+                employee = Employee.objects.get(user=request.user)
+            except Employee.DoesNotExist:
+                error = "Employee profile not found for the current user."
+                return render(request, 'employee/apply_leave.html', {'form': form, 'error': error})
 
-
-            if date_difference < 0:
-                error = "End Date should be after Starting Date"
-            else:
-
-                leave = Leave.objects.create(
-                    employee=user,
+            try:
+                Leave.objects.create(
+                    employee=employee,
                     leavetype=leavetype,
                     fromdate=fromdate,
                     todate=todate,
                     description=description,
-                    status=0,
-                    isread=0
+                    status=0  # Assuming 0 is the status for 'Pending'
                 )
-
-                leave.save()
-                msg = "Your leave application has been applied. Thank you."
+                msg = "Leave application submitted successfully."
                 return redirect('leave:employee_leave_history')
 
+            except Exception as e:
+                error = str(e)
         else:
-            error = "Please correct the form errors."
+            error = "Form is not valid."
     else:
         form = LeaveForm()
 
-    context = {
-        'form': form,
-        'error': error,
-        'msg': msg
-    }
-
-    return render(request, 'employee/apply_leave.html', context)
-
+    return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg})
 @login_required
 def employee_leave_history(request):
     user = request.user
-    leave_history = Leave.objects.filter(employee=user.id).order_by('-id')
-    status = Leave.status
-    context = {
-        'status':status,
-        'leave_history': leave_history
 
+    try:
+        # Retrieve the Employee instance associated with the logged-in user
+        employee = Employee.objects.get(user=user)
+    except Employee.DoesNotExist:
+        # Handle the case where the Employee instance does not exist
+        error = "Employee profile not found for the current user."
+        return render(request, 'leaves/leave_history.html', {'error': error})
+
+    # Filter leave history by the Employee instance
+    leave_history = Leave.objects.filter(employee=employee).order_by('-id')
+    status = Leave.status
+
+    context = {
+        'status': status,
+        'leave_history': leave_history
     }
 
     return render(request, 'employee/leave_history.html', context)
-
 
 
 

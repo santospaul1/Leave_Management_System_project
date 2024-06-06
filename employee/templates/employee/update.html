@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container mt-4">
         <h1 class="mb-4">Update Employee</h1>
-        <form method="post" action="{% url 'myadmin:update_employee' employee.empcode %}">
+        <form method="post" action="{% url 'employee:update_employee' employee.empcode %}">
             {% csrf_token %}
 
             <div class="row">
