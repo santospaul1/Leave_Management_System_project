@@ -50,7 +50,7 @@
                   <li class="{% if request.resolver_match.url_name == 'approved_leaves' %}active{% endif %}">
                     <a href="{% url 'leave:approved_leaves' %}"><i class="fa fa-check-square mr-3"></i> Approved</a></li>
                   </li>
-                <li class="{% if request.resolver_match.url_name == 'declined_leaves mr-3' %}active{% endif %}">
+                <li class="{% if request.resolver_match.url_name == 'declined_leaves' %}active{% endif %}">
                   <a href="{% url 'leave:declined_leaves' %}"><i class="fa fa-times mr-3"></i> Declined</a></li>
                   <li class="{% if request.resolver_match.url_name == 'leave_history' %}active{% endif %}">
                     <a href="{% url 'leave:leave_history' %}"><i class="fa fa-history mr-3"></i>Leave History</a></li>

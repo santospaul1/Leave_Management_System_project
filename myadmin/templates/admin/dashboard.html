@@ -1,109 +1,160 @@
 {% extends 'admin/main.html' %}
 
 {% block content %}
-<div>
-            <!-- page title area end -->
-            <div class="main-content-inner">
-                <!-- sales report area start -->
-                <div class="sales-report-area mt-5 mb-5">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="single-report mb-xs-30">
-                                <div class="s-report-inner pr--20 pt--30 mb-3">
+<style>
+    <style>
+
+        .main-content-inner {
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #333;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            color: #fff;
+        }
+
+        .card-header {
+            background-color: transparent;
+            border-bottom: none;
+            padding: 1rem 1.5rem 0 1.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .request-leave-btn {
+            background-color: #ff4b5c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
+</style>
+<div class="container">
+        <div class="main-content-inner">
+            <div class="sales-report-area mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
                                     <div class="icon"><i class="fa fa-briefcase"></i></div>
-                                    <div class="s-report-title d-flex justify-content-between">
-                                        <h4 class="header-title mb-0">Available Leave Types</h4>
-                                    </div>
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <h1>{{ count_leavetype }}</h1>
-                                        <span>Leave Types</span>
-                                    </div>
+                                    <h4 class="header-title mb-0 text-white">Available Leave Types</h4>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="single-report mb-xs-30">
-                                <div class="s-report-inner pr--20 pt--30 mb-3">
-                                    <div class="icon"><i class="fa fa-users"></i></div>
-                                    <div class="s-report-title d-flex justify-content-between">
-                                        <h4 class="header-title mb-0">Registered Employees</h4>
-                                    </div>
-                                    <div class= "d-flex justify-content-between pb-2">
-                                        <h1>{{ count_employees }}</h1>
-                                        <span>Active Employees</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="single-report">
-                                <div class="s-report-inner pr--20 pt--30 mb-3">
-                                    <div class="icon"><i class="fa fa-th-large"></i></div>
-                                    <div class="s-report-title d-flex justify-content-between">
-                                        <h4 class="header-title mb-0">Available Departments</h4>
-                                    </div>
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <h1>{{ count_department}}</h1>
-                                        <span>Department</span>
-                                    </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <h1 class="text-white">{{ count_leavetype }}</h1>
+                                    <span>Leave Types</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <br>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="single-report mb-xs-30">
-                                <div class="s-report-inner pr--20 pt--30 mb-3">
-                                    <div class="icon"><i class="fa fa-spinner"></i></div>
-                                    <div class="s-report-title d-flex justify-content-between">
-                                        <h4 class="header-title mb-0">Pending Application</h4>
-                                    </div>
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <h1>{{ count_pending }}</h1>
-                                        <span>pending</span>
-                                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="icon"><i class="fa fa-users"></i></div>
+                                    <h4 class="header-title mb-0 text-white">Registered Employees</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <h1 class="text-white">{{ count_employees }}</h1>
+                                    <span>Active Employees</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="single-report mb-xs-30">
-                                <div class="s-report-inner pr--20 pt--30 mb-3">
-                                    <div class="icon"><i class="fa fa-times"></i></div>
-                                    <div class="s-report-title d-flex justify-content-between">
-                                        <h4 class="header-title mb-0">Declined Application</h4>
-                                    </div>
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <h1>{{ count_declined }}</h1>
-                                        <span>Declined</span>
-                                    </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="icon"><i class="fa fa-th-large"></i></div>
+                                    <h4 class="header-title mb-0 text-white">Available Departments</h4>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="single-report">
-                                <div class="s-report-inner pr--20 pt--30 mb-3">
-                                    <div class="icon"><i class="fa fa-check-square-o"></i></div>
-                                    <div class="s-report-title d-flex justify-content-between">
-                                        <h4 class="header-title mb-0">Approved Application</h4>
-                                    </div>
-                                    <div class="d-flex justify-content-between pb-2">
-                                        <h1>{{ count_approved }}</h1>
-                                        <span>Approved</span>
-                                    </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <h1 class="text-white">{{ count_department}}</h1>
+                                    <span>Department</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- sales report area end -->
 
-                <!-- row area start -->
+                <!-- New Row for Additional Data -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="icon"><i class="fa fa-spinner"></i></div>
+                                    <h4 class="header-title mb-0 text-white">Pending Leaves</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <h1 class="text-white">{{ count_pending }}</h1>
+                                    <span>Pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="icon"><i class="fa fa-times"></i></div>
+                                    <h4 class="header-title mb-0 text-white">Declined Leaves</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <h1 class="text-white">{{ count_declined }}</h1>
+                                    <span>Declined</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="icon"><i class="fa fa-check-square-o"></i></div>
+                                    <h4 class="header-title mb-0 text-white">Approved Leaves</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between pb-2">
+                                    <h1 class="text-white">{{ count_approved }}</h1>
+                                    <span>Approved</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
                 <div class="row">
 
-                    <!-- trading history area start -->
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -126,22 +177,25 @@
                                         <thead class="text-uppercase">
                                             <tr>
                                                 <th>S.N</th>
-                                                <th>Employee ID</th>
-                                                <th width="120">Full Name</th>
-                                                <th>Leave Type</th>
-                                                <th>Applied On</th>
-                                                <th>Current Status</th>
-                                                <th></th>
+                                            <th>Employee ID</th>
+                                            <th>Full Name</th>
+                                            <th>Department</th>
+                                            <th>Leave Type</th>
+                                            <th>Applied On</th>
+                                            <th>Current Status</th>
+                                            <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for leave in leaves %}
                                                 <tr>
                                                     <td>{{ forloop.counter }}</td>
-                                                <td>{{ leave.employee }}</td>
-                                                <td>{{ leave.employee.first_name }} {{ leave.employee.last_name }}</td>
-                                                <td>{{ leave.leavetype }}</td>
-                                                <td>{{ leave.posting_date }}</td>
+                                            <td>{{ leave.employee.empcode }}</td>
+                                            <td>{{ leave.employee.firstName }} {{ leave.employee.lastName }}</td>
+                                            <td>{{ leave.employee.department }}</td>
+                                            <td>{{ leave.leavetype }}</td>
+                                            <td>{{ leave.posting_date }}</td>
+
                                                     <td>
 
                                                         {% if leave.status == '1' %}
@@ -173,3 +227,4 @@
     </div>
 
 {% endblock content %}
+

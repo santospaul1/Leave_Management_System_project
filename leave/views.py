@@ -193,7 +193,7 @@ def apply_leave(request):
                     status=0  # Assuming 0 is the status for 'Pending'
                 )
                 msg = "Leave application submitted successfully."
-                return redirect('leave:employee_leave_history')
+
 
             except Exception as e:
                 error = str(e)
