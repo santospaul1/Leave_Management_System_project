@@ -1,16 +1,19 @@
-<!DOCTYPE html>
-<html class="no-js" lang="en">
-<head>
-    <!-- Add your head content here -->
-</head>
-<body>
+{% extends "admin/main.html" %}
+
+{% block content %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
     <div class="container">
         <h1>Add Leave Type</h1>
         <form method="post" action="{% url 'leave:add_leave_type' %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Add Leave Type</button>
+            <button class="btn btn-primary" type="submit">Add Leave Type</button>
         </form>
     </div>
-</body>
-</html>
+{% endblock %}

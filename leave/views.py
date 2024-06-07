@@ -14,11 +14,10 @@ def add_leave_type(request):
     if request.method == 'POST':
         leavetype = request.POST['leavetype']
         description = request.POST['Description']
+        leave_days = request.POST['leave_days']
 
-        leavetype = LeaveType(leavetype=leavetype, Description=description)
+        leavetype = LeaveType(leavetype=leavetype, Description=description, leave_days=leave_days)
         leavetype.save()
-
-        # Redirect to a success page or handle success as needed
         messages.success(request, 'New leave has been added successfully')
         return redirect('leave:leavetype_list')
 
@@ -111,6 +110,9 @@ def update_leave_type(request, lid):
             leave_type = LeaveType.objects.get(id=lid)
             leave_type.leavetype = form.cleaned_data['leavetype']
             leave_type.Description = form.cleaned_data['Description']
+            leave_type.leave_days = form.cleaned_data['leave_days']
+
+
             leave_type.save()
 
             msg = "Leave type updated successfully"
@@ -119,12 +121,13 @@ def update_leave_type(request, lid):
         leave_type = LeaveType.objects.get(pk=lid)
         form = LeaveTypeForm(initial={
             'leavetype': leave_type.leavetype,
-            'Description': leave_type.Description
+            'Description': leave_type.Description,
+            'leave_days': leave_type.leave_days
         })
 
     context = {
         'form': form,
-        'msg': msg if 'msg' in locals() else None
+        'msg': msg
     }
 
     return render(request, 'leaves/update_leave_type.html', context)
@@ -182,21 +185,25 @@ def apply_leave(request):
             except Employee.DoesNotExist:
                 error = "Employee profile not found for the current user."
                 return render(request, 'employee/apply_leave.html', {'form': form, 'error': error})
+            
+            days = (todate - fromdate).days
 
-            try:
-                Leave.objects.create(
+
+            if days < 0:
+                error = "End Date should be after Starting Date"
+            else:
+                    Leave.objects.create(
                     employee=employee,
                     leavetype=leavetype,
                     fromdate=fromdate,
                     todate=todate,
                     description=description,
-                    status=0  # Assuming 0 is the status for 'Pending'
+                    status=0,  
+                    days=days
+                
                 )
-                msg = "Leave application submitted successfully."
-
-
-            except Exception as e:
-                error = str(e)
+                    msg = "Leave application submitted successfully."
+                
         else:
             error = "Form is not valid."
     else:

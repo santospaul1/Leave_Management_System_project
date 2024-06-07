@@ -5,7 +5,7 @@ from django import forms
 class LeaveTypeForm(forms.ModelForm):
     class Meta:
         model = LeaveType
-        fields = ['leavetype', 'Description']
+        fields = ['leavetype', 'Description', 'leave_days']
 
 
 class LeaveForm(forms.Form):

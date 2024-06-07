@@ -1,7 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
-
-from department.models import Department
 from employee.models import Employee
 
 # Create your models here.
@@ -14,7 +11,7 @@ STATUS_CHOICES = (
 class LeaveType(models.Model):
     leavetype = models.CharField(max_length=255)
     Description = models.TextField()
-
+    leave_days = models.IntegerField(default = 30)
     PostingDate = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -33,6 +30,7 @@ class Leave(models.Model):
     description = models.TextField(default=None)
     fromdate = models.DateField( default=None)
     todate = models.DateField( default=None)
+    days = models.IntegerField(default=0)
     isread = models.IntegerField(default=0)
     admin_remark = models.CharField(max_length=255, default=None, null=True)
 

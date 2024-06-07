@@ -14,6 +14,7 @@
                     <th>Conditions</th>
                     <th>From</th>
                     <th>To</th>
+                    <th>Days</th>
                     <th>Applied</th>
                     <th>Admin's Remark</th>
                     <th>Status</th>
@@ -27,7 +28,9 @@
                     <td>{{ leave.description }}</td>
                     <td>{{ leave.fromdate }}</td>
                     <td>{{ leave.todate }}</td>
+                    <td>{{leave.days}}</td>
                     <td>{{ leave.posting_date }}</td>
+                    
                     <td>
 
                         {% if leave.admin_remark %}
@@ -59,5 +62,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-{% include 'employee/footer.html' %}
+
 {% endblock content %}

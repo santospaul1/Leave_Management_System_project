@@ -1,23 +1,17 @@
-<!doctype html>
-<html class="no-js" lang="en">
+{% extends 'admin/main.html' %}
 
-<head>
-    <!-- Add your HTML head content here -->
-</head>
-
-<body>
+{% block content %}
     <!-- Add your HTML body content here -->
     <form method="POST">
         {% csrf_token %}
         {{form.as_p}}
 
-        <button type="submit">MAKE CHANGES</button>
+        <button class="btn btn-primary" type="submit">MAKE CHANGES</button>
     </form>
+<br />
     {% if msg %}
         <div class="alert alert-success">
             <strong>Info:</strong> {{ msg }}
         </div>
     {% endif %}
-</body>
-
-</html>
+{% endblock %}
