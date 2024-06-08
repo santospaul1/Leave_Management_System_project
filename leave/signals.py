@@ -14,3 +14,15 @@ def initialize_leave_balances(sender, instance, created, **kwargs):
                 leave_type=leave_type,
                 balance=leave_type.leave_days
             )
+@receiver(post_save, sender=LeaveType)
+
+def initialize_leave_type_balances(sender, instance, created, **kwargs):
+    if created:
+        employees = Employee.objects.all()
+
+        for employee in employees:
+            EmployeeLeaveBalance.objects.create(
+                employee=employee,
+                leave_type=instance,
+                balance=instance.leave_days
+            )
