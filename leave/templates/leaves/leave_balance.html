@@ -1,0 +1,19 @@
+{% extends 'employee/main.html' %}
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <th>Leave Type</th>
+                <th>Balance (days)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for balance in leave_balances %}
+            <tr>
+                <td>{{ balance.leave_type.leavetype }}</td>
+                <td>{{ balance.balance }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

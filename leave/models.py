@@ -26,7 +26,7 @@ class Leave(models.Model):
         choices=STATUS_CHOICES,
         default='Pending'
     )
-    leavetype = models.CharField(max_length=255, default=None)
+    leavetype = models.ForeignKey(LeaveType, on_delete=models.CASCADE, default=None)
     description = models.TextField(default=None)
     fromdate = models.DateField( default=None)
     todate = models.DateField( default=None)
@@ -34,3 +34,13 @@ class Leave(models.Model):
     isread = models.IntegerField(default=0)
     admin_remark = models.CharField(max_length=255, default=None, null=True)
 
+class EmployeeLeaveBalance(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    leave_type = models.ForeignKey(LeaveType, on_delete=models.CASCADE)
+    balance = models.IntegerField(default=0)
+    
+    class Meta:
+        unique_together = ('employee', 'leave_type')
+        
+    def __str__(self):
+        return f"{self.employee.user.username} - {self.leave_type.leavetype}"

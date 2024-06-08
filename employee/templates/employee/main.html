@@ -30,6 +30,9 @@
         </div>
         <div class="p-4">
           <ul class="list-unstyled components mb-5">
+            <li class="{% if request.resolver_match.url_name == 'leave_balance' %}active{% endif %}">
+              <a href="{% url 'leave:leave_balance' %}"><span class="fa fa-paper-plane mr-3 text-white"></span> Balance</a>
+            </li>
             <li class="{% if request.resolver_match.url_name == 'apply_leave' %}active{% endif %}">
               <a href="{% url 'leave:apply_leave' %}"><span class="fa fa-paper-plane mr-3 text-white"></span> Apply Leave</a>
             </li>
