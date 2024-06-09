@@ -1,5 +1,17 @@
-.nav_bar {
-  text-align: end;
-  padding-top: 2px;
-  
+
+.leave-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    width: 200px;
+    margin: 10px;
+    display: inline-block;
+}
+.leave-card .icon {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+.leave-card .available, .leave-card .taken {
+    margin: 4px 0;
 }

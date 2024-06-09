@@ -10,7 +10,7 @@ from django.contrib import messages
 from leave.models import EmployeeLeaveBalance, Leave, LeaveType
 
 @login_required
-def add_leave_type(request):
+def add_leave_type(request): #Function to add types of leaves 
     if request.method == 'POST':
         leavetype = request.POST['leavetype']
         description = request.POST['Description']
@@ -27,9 +27,10 @@ def add_leave_type(request):
     return render(request, 'leaves/add_leave_type.html', {'form': form})
 
 @login_required
-def leave_type_list(request):
+def leave_type_list(request): #Function to display types of leaves available 
     leave_types = LeaveType.objects.all()  # Query all leave types
     return render(request, 'leaves/leave_type_list.html', {'leave_types': leave_types})
+
 
 @login_required
 def approved_leaves(request):
@@ -41,6 +42,7 @@ def approved_leaves(request):
     }
     
     return render(request, 'leaves/approved_leaves.html', context)
+
 @login_required
 def employee_leave_details(request, leave_id):
     leave = get_object_or_404(Leave, pk=leave_id)
@@ -225,6 +227,7 @@ def apply_leave(request):
         form = LeaveForm()
 
     return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg})
+
 @login_required
 def employee_leave_history(request):
     user = request.user
@@ -249,7 +252,7 @@ def employee_leave_history(request):
     return render(request, 'employee/leave_history.html', context)
 
 @login_required
-def leave_balance(request):
+def leave_balance(request): #Calculates leave balance
     employee = Employee.objects.get(user=request.user)
     leave_balances = EmployeeLeaveBalance.objects.filter(employee=employee)
     context = {
