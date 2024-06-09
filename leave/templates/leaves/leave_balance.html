@@ -6,24 +6,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
-<style>
-    .leave-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    text-align: center;
-    width: 200px;
-    margin: 10px;
-    display: inline-block;
-}
-.leave-card .icon {
-    font-size: 32px;
-    margin-bottom: 8px;
-}
-.leave-card .available, .leave-card .taken {
-    margin: 4px 0;
-}
-</style>
+
 
 <div class="container">
     {% for balance in leave_balances %}

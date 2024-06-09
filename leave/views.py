@@ -31,80 +31,25 @@ def leave_type_list(request): #Function to display types of leaves available
     leave_types = LeaveType.objects.all()  # Query all leave types
     return render(request, 'leaves/leave_type_list.html', {'leave_types': leave_types})
 
-
 @login_required
-def approved_leaves(request):
-    
-    approved_leaves = Leave.objects.filter(status=1)
-    context = {
-        
-        'approved_leaves': approved_leaves,
-    }
-    
-    return render(request, 'leaves/approved_leaves.html', context)
+def leave_type_section(request): #Function to delete selected leave type
+    if not request.user.is_authenticated:
+        return redirect('myadmin:admin_login')  # Redirect to the login page if not authenticated
 
-@login_required
-def employee_leave_details(request, leave_id):
-    leave = get_object_or_404(Leave, pk=leave_id)
-    error = ''
-    msg = ''
+    if request.method == 'GET' and 'del' in request.GET:
+        leave_type_id = request.GET['del']
+        try:
+            leave_type = LeaveType.objects.get(id=leave_type_id)
+            leave_type.delete()
+            messages.success(request, 'Leave type record deleted')
+            return redirect('leave:leave_type_list')
+        except LeaveType.DoesNotExist:
+            messages.error(request, 'Leave type record not found')
 
-    if request.method == "POST":
-        form = LeaveActionForm(request.POST)
-        if form.is_valid():
-            description = form.cleaned_data['description']
-            action = form.cleaned_data['action']
-            leave.admin_remark = description
-            leave.status = action  # Renamed from status to action
-            leave.save()
+    leave_types = LeaveType.objects.all()
 
-            if action == '1':  # If the leave is approved
-                leave_days = (leave.todate - leave.fromdate).days   # Calculate the number of leave days
-                employee = leave.employee
+    return render(request, 'leaves/leave_type_list.html', {'leave_types': leave_types})
 
-                try:
-                    leave_type_instance = LeaveType.objects.get(leavetype=leave.leavetype)
-                    leave_balance = EmployeeLeaveBalance.objects.get(employee=employee, leave_type=leave_type_instance)
-                except (LeaveType.DoesNotExist, EmployeeLeaveBalance.DoesNotExist):
-                    error = f"Leave balance for {employee.user.username} and {leave.leavetype} not found."
-                else:
-                    if leave_balance.balance >= leave_days:
-                        leave_balance.balance -= leave_days
-                        leave_balance.save()
-                        msg = f"Leave balance updated for {employee.user.username}."
-                    else:
-                        error = f"Not enough leave days available for {employee.user.username}."
-                        leave.status = '0'  # Revert to pending if not enough leave days
-                        leave.save()
-            else:
-                msg = "Leave declined successfully."
-
-            if error:
-                messages.error(request, error)
-            else:
-                messages.success(request, msg)
-
-        else:
-            error = "Please correct the form errors."
-            messages.error(request, error)
-    else:
-        form = LeaveActionForm(initial={'action': leave.status})
-
-    context = {
-        'form': form,
-        'leave': leave,
-        'error': error,
-        'msg': msg,
-    }
-
-    return render(request, 'leaves/leave_details.html', context)
-@login_required
-def declined_leaves(request):
-    declined_leaves = Leave.objects.filter(status=2).order_by('-id')
-    context = {
-        'declined_leaves': declined_leaves
-    }
-    return render(request, 'leaves/declined_leaves.html', context)
 
 @login_required
 def update_leave_type(request, lid):
@@ -141,40 +86,6 @@ def update_leave_type(request, lid):
 
     return render(request, 'leaves/update_leave_type.html', context)
 
-@login_required
-def leaves_history(request):
-    if not request.user.is_authenticated:
-        return redirect('myadmin:admin_login')  # Redirect to the login page if not authenticated
-
-    leave_history = Leave.objects.select_related('employee').order_by('-id')  # Assuming you have a Leave model
-    return render(request, 'leaves/leaves_history.html', {'leave_history': leave_history})
-
-@login_required
-def leave_type_section(request):
-    if not request.user.is_authenticated:
-        return redirect('myadmin:admin_login')  # Redirect to the login page if not authenticated
-
-    if request.method == 'GET' and 'del' in request.GET:
-        leave_type_id = request.GET['del']
-        try:
-            leave_type = LeaveType.objects.get(id=leave_type_id)
-            leave_type.delete()
-            messages.success(request, 'Leave type record deleted')
-        except LeaveType.DoesNotExist:
-            messages.error(request, 'Leave type record not found')
-
-    leave_types = LeaveType.objects.all()
-
-    return render(request, 'leaves/leave_type_section.html', {'leave_types': leave_types})
-
-@login_required
-def pending_leaves(request):
-    leaves = Leave.objects.filter(status=0).order_by('-id')
-
-    context = {
-        'leaves': leaves
-    }
-    return render(request, 'leaves/pending_history.html', context)
 
 @login_required
 def apply_leave(request):
@@ -260,4 +171,100 @@ def leave_balance(request): #Calculates leave balance
         'leave_balances': leave_balances
     }
     return render(request, 'leaves/leave_balance.html', context)
+
+
+
+@login_required
+def approved_leaves(request):
+    
+    approved_leaves = Leave.objects.filter(status=1)
+    context = {
+        
+        'approved_leaves': approved_leaves,
+    }
+    
+    return render(request, 'leaves/approved_leaves.html', context)
+
+@login_required
+def employee_leave_details(request, leave_id):
+    leave = get_object_or_404(Leave, pk=leave_id)
+    error = ''
+    msg = ''
+
+    if request.method == "POST":
+        form = LeaveActionForm(request.POST)
+        if form.is_valid():
+            description = form.cleaned_data['description']
+            action = form.cleaned_data['action']
+            leave.admin_remark = description
+            leave.status = action  # Renamed from status to action
+            leave.save()
+
+            if action == '1':  # If the leave is approved
+                leave_days = (leave.todate - leave.fromdate).days   # Calculate the number of leave days
+                employee = leave.employee
+
+                try:
+                    leave_type_instance = LeaveType.objects.get(leavetype=leave.leavetype)
+                    leave_balance = EmployeeLeaveBalance.objects.get(employee=employee, leave_type=leave_type_instance)
+                except (LeaveType.DoesNotExist, EmployeeLeaveBalance.DoesNotExist):
+                    error = f"Leave balance for {employee.user.username} and {leave.leavetype} not found."
+                else:
+                    if leave_balance.balance >= leave_days:
+                        leave_balance.balance -= leave_days
+                        leave_balance.save()
+                        msg = f"Leave balance updated for {employee.user.username}."
+                    else:
+                        error = f"Not enough leave days available for {employee.user.username}."
+                        leave.status = '0'  # Revert to pending if not enough leave days
+                        leave.save()
+            else:
+                msg = "Leave declined successfully."
+
+            if error:
+                messages.error(request, error)
+            else:
+                messages.success(request, msg)
+
+        else:
+            error = "Please correct the form errors."
+            messages.error(request, error)
+    else:
+        form = LeaveActionForm(initial={'action': leave.status})
+
+    context = {
+        'form': form,
+        'leave': leave,
+        'error': error,
+        'msg': msg,
+    }
+
+    return render(request, 'leaves/leave_details.html', context)
+@login_required
+def declined_leaves(request):
+    declined_leaves = Leave.objects.filter(status=2).order_by('-id')
+    context = {
+        'declined_leaves': declined_leaves
+    }
+    return render(request, 'leaves/declined_leaves.html', context)
+
+
+@login_required
+def leaves_history(request):
+    if not request.user.is_authenticated:
+        return redirect('myadmin:admin_login')  # Redirect to the login page if not authenticated
+
+    leave_history = Leave.objects.select_related('employee').order_by('-id')  # Assuming you have a Leave model
+    return render(request, 'leaves/leaves_history.html', {'leave_history': leave_history})
+
+
+
+@login_required
+def pending_leaves(request):
+    leaves = Leave.objects.filter(status=0).order_by('-id')
+
+    context = {
+        'leaves': leaves
+    }
+    return render(request, 'leaves/pending_history.html', context)
 
