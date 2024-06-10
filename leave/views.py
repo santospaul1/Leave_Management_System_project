@@ -1,6 +1,9 @@
+from datetime import datetime
+from django.http import JsonResponse
 from django.shortcuts import redirect, render,get_object_or_404
 
 from employee.models import Employee
+from holiday.date_utils import calculate_business_days
 from leave.forms import LeaveActionForm, LeaveForm, LeaveTypeForm
 
 from django.contrib.auth.decorators import login_required
@@ -88,7 +91,6 @@ def update_leave_type(request, lid):
 
 
 
-
 @login_required
 def apply_leave(request):
     error = None
@@ -115,31 +117,30 @@ def apply_leave(request):
             except Employee.DoesNotExist:
                 error = "Employee profile not found for the current user."
                 return render(request, 'employee/apply_leave.html', {'form': form, 'error': error})
-            
-            days = (todate - fromdate).days + 1
 
+            business_days = calculate_business_days(fromdate, todate)
 
-            if days < 0:
+            if business_days <= 0:
                 error = "End Date should be after Starting Date"
             else:
-                    Leave.objects.create(
+                Leave.objects.create(
                     employee=employee,
                     leavetype=leavetype,
                     fromdate=fromdate,
                     todate=todate,
                     description=description,
-                    status=0,  
-                    days=days
-                
+                    status=0,  # Pending status
+                    days=business_days
                 )
-                    msg = "Leave application submitted successfully."
-                
+                msg = "Leave application submitted successfully."
         else:
             error = "Form is not valid."
     else:
         form = LeaveForm()
 
     return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg})
+
+
 
 @login_required
 def employee_leave_history(request):
@@ -203,7 +204,7 @@ def employee_leave_details(request, leave_id):
             leave.save()
 
             if action == '1':  # If the leave is approved
-                leave_days = (leave.todate - leave.fromdate).days   # Calculate the number of leave days
+                leave_days = calculate_business_days(leave.fromdate, leave.todate)   # Calculate the number of leave days
                 employee = leave.employee
 
                 try:
