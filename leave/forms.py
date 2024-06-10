@@ -30,3 +30,4 @@ class LeaveActionForm(forms.Form):
         widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'Description', 'maxlength': 500}),
         required=True,
     )
+

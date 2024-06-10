@@ -8,9 +8,9 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 
-<div class="container">
+<div class="container text-white ">
     {% for balance in leave_balances %}
-    <div class="leave-card">
+    <div class="leave-card bg-dark">
         
         <div class="leave-type">{{ balance.leave_type.leavetype }}</div>
         <div class="icon">

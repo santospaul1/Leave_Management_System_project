@@ -1,53 +1,105 @@
 {% extends 'employee/main.html' %}
 {% block content %}
 
-    <!-- Add Bootstrap CSS link -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <div class="container">
-       <center> <h1 class="mt-5">Apply Leave</h1></center>
-            {% if error %}
-        <div class="error">{{ error }}</div>
+<!-- Add Bootstrap CSS link -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<div class="container">
+    <center>
+        <h1 class="mt-5">Apply Leave</h1>
+    </center>
+    {% if error %}
+    <div class="error">{{ error }}</div>
     {% endif %}
     {% if msg %}
-        <div class="message">{{ msg }}</div>
+    <div class="message">{{ msg }}</div>
     {% endif %}
     <form method="POST" name="addemp" class="leave-form">
         {% csrf_token %}
-
         <div class="card-body">
             <p class="text-muted font-14 mb-4">Please fill out the form below.</p>
-
             <div class="form-group">
                 {{ form.leavetype.label_tag }}
                 {{ form.leavetype }}
             </div>
-
             <div class="form-group">
                 {{ form.fromdate.label_tag }}
                 {{ form.fromdate }}
             </div>
-
             <div class="form-group">
                 {{ form.todate.label_tag }}
                 {{ form.todate }}
-                <label class="col-form-label">Date Difference</label>
-
-                <input class="form-control" type="text" id="dateDifference" readonly>
             </div>
-
+            <div class="form-group">
+                <label class="col-form-label">Date Difference</label>
+                <input class="form-control" type="text" id="days" readonly>
+            </div>
             <div class="form-group">
                 {{ form.description.label_tag }}
                 {{ form.description }}
             </div>
-
             <button class="btn btn-primary" name="apply" type="submit">SUBMIT</button>
         </div>
     </form>
-    </div>
+</div>
 
-    <!-- Add Bootstrap JavaScript and jQuery links at the end of the body -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Add jQuery and Bootstrap JavaScript links at the end of the body -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Kenyan public holidays
+        var holidays = [
+            '2024-01-01', // New Year's Day
+            '2024-04-07', // Good Friday
+            '2024-04-10', // Easter Monday
+            '2024-05-01', // Labour Day
+            '2024-06-01', // Madaraka Day
+            '2024-10-20', // Mashujaa Day
+            '2024-12-12', // Jamhuri Day
+            '2024-12-25', // Christmas Day
+            '2024-12-26', // Boxing Day
+            // Add other holidays as needed
+        ];
+
+        function isWeekend(date) {
+            var day = date.getDay();
+            return (day === 6) || (day === 0); // 6 = Saturday, 0 = Sunday
+        }
+
+        function isHoliday(date) {
+            var formattedDate = date.toISOString().split('T')[0];
+            return holidays.includes(formattedDate);
+        }
+
+        function calculateBusinessDays(startDate, endDate) {
+            var count = 0;
+            var currentDate = new Date(startDate);
+
+            while (currentDate <= endDate) {
+                if (!isWeekend(currentDate) && !isHoliday(currentDate)) {
+                    count++;
+                }
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+
+            return count;
+        }
+
+        function updateDateDifference() {
+            var fromDate = new Date($('#id_fromdate').val());
+            var toDate = new Date($('#id_todate').val());
+            if (fromDate && toDate) {
+                var businessDays = calculateBusinessDays(fromDate, toDate);
+                $('#days').val(businessDays);
+            } else {
+                $('#days').val('');
+            }
+        }
+
+        $('#id_fromdate, #id_todate').on('change', updateDateDifference);
+    });
+</script>
 
 {% endblock content %}

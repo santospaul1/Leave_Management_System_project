@@ -1,0 +1,27 @@
+{% extends 'admin/main.html' %}
+{% block content %}
+
+<center><a href="{% url 'add_holiday' %}" class="btn btn-sm btn-info">Add Holiday</a></center>
+<br />    
+<table class="table table-striped ">
+        <thead class="table table-dark">
+            <th >Holiday Name</th>
+            <th>Date</th>
+            <th>Action</th>
+        </thead>
+        <tbody>
+            {% for holiday in holidays %}
+            <td>{{ holiday.name }}</td>
+            <td>{{ holiday.date }}</td>
+            <td>
+            
+               <a href="{% url 'edit_holiday' holiday.id %}" class="btn btn-primary">Edit</a>
+               <a href="{% url 'delete_holiday' holiday.id %}"class="btn btn-danger" onclick="return confirm('Do you want to delete?')">Delete</a>
+         </td>
+            
+            
+        </tbody>
+
+    {% endfor %}
+  
+{% endblock %}

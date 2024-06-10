@@ -33,6 +33,7 @@ class Leave(models.Model):
     days = models.IntegerField(default=0)
     isread = models.IntegerField(default=0)
     admin_remark = models.CharField(max_length=255, default=None, null=True)
+    
 
 class EmployeeLeaveBalance(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)

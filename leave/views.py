@@ -87,6 +87,8 @@ def update_leave_type(request, lid):
     return render(request, 'leaves/update_leave_type.html', context)
 
 
+
+
 @login_required
 def apply_leave(request):
     error = None
