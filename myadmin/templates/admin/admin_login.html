@@ -1,67 +1,78 @@
 {% load static %}
-<!doctype html>
-<html class="no-js" lang="en">
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Admin Panel</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="{% static 'images/icon/favicon.ico' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
-    <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
-    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}">
-    <!-- amchart css -->
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-    <!-- others css -->
-    <link rel="stylesheet" href="{% static 'css/typography.css' %}">
-    <link rel="stylesheet" href="{% static 'css/default-css.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
-    <!-- modernizr css -->
-    <script src="{% static 'js/vendor/modernizr-2.8.3.min.js' %}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/logins.css' %}">
 </head>
-
 <body>
-    <!-- Add your HTML body content here -->
+
+    <!-- login area start -->
     <div class="login-area">
         <div class="container">
             <div class="login-box ptb--100">
-                <form method="post">
-                    {% csrf_token %}
+                <form method="POST" name="signin">
                     <div class="login-form-head">
-                        <h4>ADMIN PANEL</h4>
-                        <p>Employee Leave Management System</p>
+                        <h4 class="text-center">Admin Login Panel</h4>
+                        <p class="text-center" style="margin-top: 30px;">Employee Leave Management System</p>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
                     </div>
+                    <script>
+                        // Add JavaScript to clear the error message on page load
+                        window.addEventListener('load', function() {
+                            // Select the error message element and remove it
+                            var errorMessage = document.querySelector('.alert.alert-danger');
+                            if (errorMessage) {
+                                errorMessage.remove();
+                            }
+                        });
+                    </script>
                     <div class="login-form-body">
-                        <div class="form-gp">
-                            <label for="exampleInputEmail1">Username</label>
-                            <input type="text" id="exampleInputEmail1" name="username" autocomplete="off" required>
-                            <i class="ti-user"></i>
+                        <div class="form-group" style="margin-top: -30px;">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" class="form-control" autocomplete="on" required>
                             <div class="text-danger"></div>
                         </div>
-                        <div class="form-gp">
-                            <label for="exampleInputPassword1">Password</label>
-                            <input type="password" id="exampleInputPassword1" name="password" autocomplete="off" required>
-                            <i class="ti-lock"></i>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control" autocomplete="off" required>
                             <div class="text-danger"></div>
                         </div>
-
+                        <div class="row mb-4 rmber-area">
+                            <div class="col-6">
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                                    <label class="custom-control-label" for="customControlAutosizing">Remember Me</label>
+                                </div>
+                            </div>
+                           
+                        </div>
                         <div class="submit-btn-area">
-                            <button id="form_submit" type="submit" name="signin">Submit <i class="ti-arrow-right"></i></button>
+                            {% csrf_token %}
+                            <button id="form_submit" type="submit" name="signin" class="btn btn-primary btn-block">Login <i class="ti-arrow-right"></i></button>
                         </div>
                         <div class="form-footer text-center mt-5">
-                            {% comment %}
-                            <p class="text-muted"><a href="{% url 'accounts:employee_login' %}"><i class="ti-arrow-left"></i> Go Back</a></p>
-                             {% endcomment %}
+                            <p class="text-muted"><a href="{% url 'accounts:employee_login' %}">Go to Employee Panel</a></p>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- Add jQuery and Bootstrap JavaScript links at the end of the body -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

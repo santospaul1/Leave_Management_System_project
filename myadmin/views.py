@@ -18,12 +18,15 @@ def admin_login(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            return redirect('myadmin:dashboard')
+            try:
+                admin_user = Admin.objects.get(user=user)
+                login(request, user)
+                return redirect('myadmin:dashboard')
+            except Admin.DoesNotExist:
+                messages.error(request, 'You are not authorized to access this area')
         else:
             messages.error(request, 'Invalid username or password')
     return render(request, 'admin/admin_login.html')
-
 
 
 @login_required
