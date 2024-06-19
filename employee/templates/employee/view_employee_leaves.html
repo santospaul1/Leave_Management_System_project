@@ -1,0 +1,57 @@
+<!-- employee/templates/employee/view.html -->
+{% extends 'admin/main.html' %}
+{% load custom_filters %}
+
+{% block content %}
+  <h1>{{ employee.user.get_full_name }}</h1>
+
+    
+        <table class="table">
+    <thead>
+    <tr>
+    <th>Leave Type</th>
+    <th>Days Taken</th>
+    <th>Days Remaining</th>
+</tr>
+</thead> 
+<tbody>
+    {% for balance in leave_balances %}
+    <tr>
+        <td>{{ balance.leave_type.leavetype }}</td>
+        <td>{{ balance.leave_type.leave_days|subtract:balance.balance }}</td>
+        <td>{{ balance.balance }}</td>
+    </tr>
+</tbody>
+{% endfor %}
+</table>
+        
+  <h2>Leave History:</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Leave Type</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>Status</th>
+        <th>Admin Remark</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for leave in leave_history %}
+        <tr>
+          <td>{{ leave.leavetype }}</td>
+          <td>{{ leave.fromdate }}</td>
+          <td>{{ leave.todate }}</td>
+          <td>{{ leave.status }}</td>
+          <td>{{ leave.admin_remark }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No leave history found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+
+{% endblock %}

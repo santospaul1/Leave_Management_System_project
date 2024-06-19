@@ -277,7 +277,7 @@ def pending_leaves(request):
 def employees_on_leave_per_department(request):
     current_date = timezone.now().date()
     leaves = Leave.objects.filter(fromdate__lte=current_date, todate__gte=current_date, status=1)
-    departments = Department.objects.all()
+    departments = Department.objects.all().order_by("department_name")
 
     department_leave_data = {}
 

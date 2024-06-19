@@ -16,6 +16,7 @@
       <th scope="col">Name</th>
       <th scope="col">Department</th>
       <th scope="col">Joined On</th>
+      <th scope="col">Leaves</th>
       <th scope="col">Status</th>
       <th scope="col">Actions</th>
     </tr>
@@ -27,6 +28,7 @@
       <td>{{ employee.firstName }} {{ employee.lastName }}</td>
       <td>{{ employee.department }}</td>
       <td>{{ employee.CreationDate }}</td>
+      <td><a href="{% url 'employee:view_employee_leaves' employee.empcode   %}" class="btn btn-secondary btn-sm">view</a> </td>
       <td>{{ employee.status }}</td>
       <td>
           <a href="{% url 'employee:view_employee' employee.empcode   %}" class="btn btn-secondary btn-sm">view</a>

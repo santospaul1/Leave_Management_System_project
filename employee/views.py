@@ -10,6 +10,8 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
+from leave.models import EmployeeLeaveBalance, Leave
+
 @login_required
 def employees(request):
 
@@ -105,10 +107,33 @@ def update_employee(request, empcode):
 def view_employee(request, empcode):
 
   employee = get_object_or_404(Employee, empcode=empcode)
-
+  leave_history = Leave.objects.filter(employee=employee).order_by('-id')
   form = EmployeeForm(instance=employee)
 
-  return render(request, 'employee/view.html', {'form': form, 'employee': employee})
+  context = {
+        'employee': employee,
+        'leave_history': leave_history,
+        'form':form,
+    }
+  
+  return render(request, 'employee/view.html', context)
+
+@login_required
+def view_employee_leaves(request, empcode):
+
+  employee = get_object_or_404(Employee, empcode=empcode)
+  leave_history = Leave.objects.filter(employee=employee).order_by('-id')
+  leave_balances = EmployeeLeaveBalance.objects.filter(employee=employee)
+  
+
+  context = {
+        'employee': employee,
+        'leave_history': leave_history,
+        'leave_balances':leave_balances
+        
+    }
+  
+  return render(request, 'employee/view_employee_leaves.html', context)
 
 @login_required
 def change_password(request):
