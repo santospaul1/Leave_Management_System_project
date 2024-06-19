@@ -17,6 +17,7 @@ def admin_login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             try:
                 admin_user = Admin.objects.get(user=user)

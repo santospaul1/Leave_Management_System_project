@@ -1,7 +1,8 @@
 from datetime import datetime
 from django.http import JsonResponse
 from django.shortcuts import redirect, render,get_object_or_404
-
+from django.utils import timezone
+from department.models import Department
 from employee.models import Employee
 from holiday.date_utils import calculate_business_days
 from leave.forms import LeaveActionForm, LeaveForm, LeaveTypeForm
@@ -270,4 +271,20 @@ def pending_leaves(request):
         'leaves': leaves
     }
     return render(request, 'leaves/pending_history.html', context)
+
+
+@login_required
+def employees_on_leave_per_department(request):
+    current_date = timezone.now().date()
+    leaves = Leave.objects.filter(fromdate__lte=current_date, todate__gte=current_date, status=1)
+    departments = Department.objects.all()
+
+    department_leave_data = {}
+
+    for department in departments:
+        employees_on_leave = Employee.objects.filter(department=department, leave__in=leaves)
+        if employees_on_leave:
+            department_leave_data[department] = employees_on_leave
+
+    return render(request, 'leaves/department_leave.html', {'department_leave_data': department_leave_data})
 

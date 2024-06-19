@@ -33,14 +33,18 @@ def employee_login(request):
                 user = None
 
         if user is not None:
-            if user.is_active:
-                if user.employee.status == 'Active':
+            try:
+                if user.is_active:
+                   if user.employee.status == 'Active':
                     login(request, user)
                     return redirect('leave:apply_leave')
+                   else:
+                    error = 'Your account is inactive. Please contact the administrator for assistance.'
                 else:
                     error = 'Your account is inactive. Please contact the administrator for assistance.'
-            else:
-                error = 'Your account is inactive. Please contact the administrator for assistance.'
+            except:
+                messages.error(request, "Sorry, login using your employee details.")
+
         else:
             error = 'Invalid username or password.'
 

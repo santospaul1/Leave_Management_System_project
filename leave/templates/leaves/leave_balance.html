@@ -18,8 +18,10 @@
             <!-- Example: -->
             <i class="fas fa-calendar text-primary"></i>
         </div>
+        <div class="days">Leave days:  {{ balance.leave_type.leave_days }}</div>
         <div class="available">Available: {{ balance.balance }}</div>
         <div class="taken">Taken: {{ balance.leave_type.leave_days|subtract:balance.balance }}</div>
+        
     </div>
     {% endfor %}
 </div>

@@ -1,0 +1,30 @@
+
+{% extends 'admin/main.html' %}
+
+{% block content %}
+  <h1> Departments</h1>
+
+  {% for department, employees in department_leave_data.items %}
+    <h3 class="text-primary">{{ department.department_name }}</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Employee Name</th>
+          <th>Leave Type</th>
+          <th>From Date</th>
+          <th>To Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for employee in employees %}
+          <tr>
+            <td>{{ employee.user.get_full_name }}</td>
+            <td>{{ employee.leave_set.first.leavetype }}</td>
+            <td>{{ employee.leave_set.first.fromdate }}</td>
+            <td>{{ employee.leave_set.first.todate }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+{% endblock %}
