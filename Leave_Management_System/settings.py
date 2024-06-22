@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'leave',
     'department',
     'holiday',
+    'notification',
 ]
 
 MIDDLEWARE = [

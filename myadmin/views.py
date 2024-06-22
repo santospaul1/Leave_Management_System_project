@@ -8,7 +8,6 @@ from django.contrib import messages
 from department.models import Department
 from employee.models import Employee
 from leave.models import Leave, LeaveType
-from .forms import AdminForm
 from .models import Admin
 
 # Create your views here.

@@ -1,5 +1,4 @@
-from datetime import datetime
-from django.http import JsonResponse
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render,get_object_or_404
 from django.utils import timezone
 from department.models import Department
@@ -12,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from leave.models import EmployeeLeaveBalance, Leave, LeaveType
+from myadmin.models import Admin
+from notification.views import send_notification
 
 @login_required
 def add_leave_type(request): #Function to add types of leaves 
@@ -120,9 +121,11 @@ def apply_leave(request):
                 return render(request, 'employee/apply_leave.html', {'form': form, 'error': error})
 
             business_days = calculate_business_days(fromdate, todate)
-
+            current_date = timezone.now().date()
             if business_days <= 0:
                 error = "End Date should be after Starting Date"
+            elif fromdate < current_date or todate < current_date:
+                error = "Please correct date and retry"
             else:
                 Leave.objects.create(
                     employee=employee,
@@ -134,6 +137,11 @@ def apply_leave(request):
                     days=business_days
                 )
                 msg = "Leave application submitted successfully."
+                # Notify admin
+                admin_users = Admin.objects.all()
+                for admin in admin_users:
+                    send_notification(admin, msg)
+
         else:
             error = "Form is not valid."
     else:
@@ -194,6 +202,7 @@ def employee_leave_details(request, leave_id):
     leave = get_object_or_404(Leave, pk=leave_id)
     error = ''
     msg = ''
+    message  = None
 
     if request.method == "POST":
         form = LeaveActionForm(request.POST)
@@ -229,6 +238,15 @@ def employee_leave_details(request, leave_id):
                 messages.error(request, error)
             else:
                 messages.success(request, msg)
+            # Notify employee
+            if action == 1:
+                message = "Your leave request has been approved."
+            elif action == 2:
+                message = "Your leave request has been declined."
+            
+            
+            send_notification(leave.employee.user, message)
+            
 
         else:
             error = "Please correct the form errors."

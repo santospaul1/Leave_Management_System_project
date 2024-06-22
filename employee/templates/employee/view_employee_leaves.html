@@ -30,6 +30,7 @@
     <thead>
       <tr>
         <th>Leave Type</th>
+        <th>Applied On</th>
         <th>From Date</th>
         <th>To Date</th>
         <th>Status</th>
@@ -40,9 +41,21 @@
       {% for leave in leave_history %}
         <tr>
           <td>{{ leave.leavetype }}</td>
+          <td>{{ leave.posting_date }}</td>
           <td>{{ leave.fromdate }}</td>
           <td>{{ leave.todate }}</td>
-          <td>{{ leave.status }}</td>
+          <td>
+            
+
+                                        {% if leave.status == '1' %}
+                                            Approved <i class="fa fa-check-square-o"></i></span>
+                                        {% elif leave.status == '2' %}
+                                            <span style="color: red">Declined <i class="fa fa-times"></i></span>
+                                        {% else %}
+                                            <span style="color: blue">Pending <i class="fa fa-spinner"></i></span>
+                                        {% endif %}
+
+        </td>
           <td>{{ leave.admin_remark }}</td>
         </tr>
       {% empty %}

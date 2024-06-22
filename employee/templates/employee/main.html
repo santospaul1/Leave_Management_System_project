@@ -40,7 +40,9 @@
               <a href="{% url 'leave:employee_leave_history' %}"><span class="fa fa-history mr-3 text-white"></span> Leave History</a>
             </li>
             <li class="{% if request.resolver_match.url_name == 'update_profile' %}active{% endif %}">
+              {% comment %}
               <a href="{% url 'employee:update_profile' user.employee.empcode %}"><span class="fa fa-user mr-3 text-white"></span>Profile</a>
+            {% endcomment %}
             </li>
             <li class="{% if request.resolver_match.url_name == 'change_password' %}active{% endif %}">
               <a href="{% url 'employee:change_password' %}"><span class="fa fa-asterisk  mr-3 text-white"></span>Change Password</a>
@@ -60,7 +62,7 @@
       <div id="content" class="p-4 p-md-5 pt-5">
         <div class="nav_bar">
           <h5>Welcome {{ user.employee.firstName }} &emsp;
-          <a href="{% url 'accounts:employee_login' %}"><i class="fa fa-power-off " aria-hidden="true"></i></a>
+          <a href="{% url 'accounts:employee_login' %}"><i class="fa fa-power-off " aria-hidden="true" alt="Logout"></i></a>
           </h5>
         </div>
 
