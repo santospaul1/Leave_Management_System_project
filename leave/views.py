@@ -11,8 +11,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from leave.models import EmployeeLeaveBalance, Leave, LeaveType
-from myadmin.models import Admin
-from notification.views import send_notification
+
+
 
 @login_required
 def add_leave_type(request): #Function to add types of leaves 
@@ -137,10 +137,6 @@ def apply_leave(request):
                     days=business_days
                 )
                 msg = "Leave application submitted successfully."
-                # Notify admin
-                admin_users = Admin.objects.all()
-                for admin in admin_users:
-                    send_notification(admin, msg)
 
         else:
             error = "Form is not valid."
@@ -161,7 +157,7 @@ def employee_leave_history(request):
     except Employee.DoesNotExist:
         # Handle the case where the Employee instance does not exist
         error = "Employee profile not found for the current user."
-        return render(request, 'leaves/leave_history.html', {'error': error})
+        return render(request, 'employee/leave_history.html', {'error': error})
 
     # Filter leave history by the Employee instance
     leave_history = Leave.objects.filter(employee=employee).order_by('-id')
@@ -238,14 +234,6 @@ def employee_leave_details(request, leave_id):
                 messages.error(request, error)
             else:
                 messages.success(request, msg)
-            # Notify employee
-            if action == 1:
-                message = "Your leave request has been approved."
-            elif action == 2:
-                message = "Your leave request has been declined."
-            
-            
-            send_notification(leave.employee.user, message)
             
 
         else:

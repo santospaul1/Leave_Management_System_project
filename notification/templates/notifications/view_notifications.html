@@ -1,14 +1,10 @@
 
-<div class="container">
-    <h2>Notifications</h2>
-    <ul class="list-group">
-        {% for notification in notifications %}
-            <li class="list-group-item {% if not notification.is_read %}list-group-item-info{% endif %}">
-                {{ notification.message }}
-                {% if not notification.is_read %}
-                    <a href="{% url 'notifications:mark_as_read' notification.id %}" class="btn btn-sm btn-primary float-right">Mark as read</a>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+  <h1>Notifications</h1>
+  <ul>
+    {% for notification in notifications %}
+      <li>{{ notification.message }} - {{ notification.timestamp }}</li>
+    {% empty %}
+      <li>No notifications.</li>
+    {% endfor %}
+  </ul>
+
