@@ -8,6 +8,7 @@ from django.contrib import messages
 from department.models import Department
 from employee.models import Employee
 from leave.models import Leave, LeaveType
+from notification.models import Notification
 from .models import Admin
 
 # Create your views here.
@@ -46,6 +47,8 @@ def dashboard(request):
     count_approved = Leave.objects.filter(status = 1).count()
     count_declined = Leave.objects.filter(status = 2).count()
     leaves = Leave.objects.order_by('-id')[:7]
+    user_notifications = Notification.objects.filter(recipient=request.user).order_by('-timestamp')
+    
 
     
     context = {
@@ -56,7 +59,8 @@ def dashboard(request):
         'count_pending': count_pending,
         'count_approved': count_approved,
         'count_declined': count_declined,
-        'leaves':leaves
+        'leaves':leaves,
+        'notifications':user_notifications,
         
     }
 

@@ -1,7 +1,8 @@
 # views.py
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .models import Notification
 
 @login_required
@@ -13,6 +14,17 @@ def get_notifications(request):
 @login_required
 def view_notifications(request):
     user_notifications = Notification.objects.filter(recipient=request.user).order_by('-timestamp')
-    return render(request, 'notifications/view_notifications.html', {'notifications': user_notifications})
+    return render(request, 'notifications/view_notifications.html', {'user_notifications': user_notifications})
 
+@login_required
+def mark_as_read(request, notification_id):
+    notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
+    notification.is_read = True
+    notification.save()
+    return redirect('notifications:view_notifications')  # Redirect to a notifications page or any other page you prefer
 
+@login_required
+def fetch_notifications(request):
+    notifications = Notification.objects.filter(recipient=request.user, is_read=False).order_by('-timestamp')
+    data = [{"id": notification.id, "message": notification.message, "url": reverse('mark_as_read', args=[notification.id])} for notification in notifications]
+    return JsonResponse(data, safe=False)

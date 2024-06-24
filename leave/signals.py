@@ -1,4 +1,3 @@
-# in your signals.py
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
@@ -45,5 +44,5 @@ def send_leave_notification(sender, instance, created, **kwargs):
         # Notify the employee
         Notification.objects.create(
             recipient=instance.employee.user,
-            message=f"Your leave request has been {'approved' if instance.status == 'Approved' else 'declined'}."
+            message=f"Your leave request has been {'approved' if instance.status == '1' else 'declined'}."
         )

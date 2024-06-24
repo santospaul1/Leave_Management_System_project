@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from leave.models import EmployeeLeaveBalance, Leave, LeaveType
+from notification.models import Notification
 
 
 
@@ -142,8 +143,10 @@ def apply_leave(request):
             error = "Form is not valid."
     else:
         form = LeaveForm()
+    
+    user_notifications = Notification.objects.filter(recipient=request.user).order_by('-timestamp')
 
-    return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg})
+    return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg, 'notifications':user_notifications})
 
 
 
@@ -241,12 +244,13 @@ def employee_leave_details(request, leave_id):
             messages.error(request, error)
     else:
         form = LeaveActionForm(initial={'action': leave.status})
-
+    
     context = {
         'form': form,
         'leave': leave,
         'error': error,
         'msg': msg,
+        
     }
 
     return render(request, 'leaves/leave_details.html', context)

@@ -90,24 +90,26 @@
                 </div>
             </div>
         </nav>
-
         <div id="content" class="p-4 p-md-5 pt-5">
-            <div class="nav_bar">
-                <h5>Welcome {{ user }} &emsp;
-                    <div class="dropdown notification-bell">
-                        <i class="fa fa-bell"></i>
-                        <span id="notification-count" class="badge">{{ notifications|length }}</span>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            {% for notification in notifications %}
-                                <a class="dropdown-item" href="#">{{ notification.message }}</a>
-                            {% empty %}
-                                <a class="dropdown-item" href="#">No notifications</a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <a href="{% url 'myadmin:user_logout' %}"><i class="fa fa-power-off" aria-hidden="true"></i></a>
-                </h5>
-            </div>
+          <div class="nav_bar">
+            <h5>Welcome {{ user }} &emsp;
+              <div class="dropdown notification-bell">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-bell"></i>
+                  <span id="notification-count" class="badge">{{ notifications|length }}</span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
+                  {% for notification in notifications %}
+                    <a class="dropdown-item" href="{% url 'notifications:mark_as_read' notification.id %}">{{ notification.message }}</a>
+                  {% empty %}
+                    <a class="dropdown-item" href="#">No notifications</a>
+                  {% endfor %}
+                </div>
+              </div>
+              <a href="{% url 'myadmin:user_logout' %}"><i class="fa fa-power-off" aria-hidden="true"></i></a>
+            </h5>
+          </div>
+  
 
             {% block content %}
             {% endblock %}
@@ -121,22 +123,22 @@
 
     <!-- JavaScript for real-time notifications -->
     <script>
-        function updateNotifications() {
-            $.getJSON("{% url 'notifications:notifications' %}", function(data) {
-                $("#notification-count").text(data.length);
-                var notificationList = $(".dropdown-menu");
-                notificationList.empty();
-                if (data.length > 0) {
-                    data.forEach(function(notification) {
-                        notificationList.append('<a class="dropdown-item" href="#">' + notification.message + '</a>');
-                    });
-                } else {
-                    notificationList.append('<a class="dropdown-item" href="#">No notifications</a>');
-                }
+      function updateNotifications() {
+        $.getJSON("{% url 'notifications:notifications' %}", function(data) {
+          $("#notification-count").text(data.length);
+          var notificationList = $(".dropdown-menu");
+          notificationList.empty();
+          if (data.length > 0) {
+            data.forEach(function(notification) {
+              notificationList.append('<a class="dropdown-item" href="' + notification.url + '">' + notification.message + '</a>');
             });
-        }
+          } else {
+            notificationList.append('<a class="dropdown-item" href="#">No notifications</a>');
+          }
+        });
+      }
 
-        setInterval(updateNotifications, 5000);
+      setInterval(updateNotifications, 5000);
     </script>
 </body>
 </html>
