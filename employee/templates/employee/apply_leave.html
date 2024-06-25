@@ -1,49 +1,51 @@
 {% extends 'employee/main.html' %}
 {% block content %}
+<div class="container">
+    {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    {% if msg %}
+    <div class="alert alert-success">{{ msg }}</div>
+    {% endif %}
+    <center>
+        <h1 class="mt-5">Apply Leave</h1>
+    </center>
 
-    <!-- Add Bootstrap CSS link -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <div class="container">
-        <center>
-            <h1 class="mt-5">Apply Leave</h1>
-        </center>
-        {% if error %}
-        <div class="error text-da">{{ error }}</div>
-        {% endif %}
-        {% if msg %}
-        <div class="message">{{ msg }}</div>
-        {% endif %}
-        <form method="POST" name="addemp" class="leave-form">
-            {% csrf_token %}
-            <div class="card-body">
-                <p class="text-muted font-14 mb-4">Please fill out the form below.</p>
-                <div class="form-group">
-                    {{ form.leavetype.label_tag }}
-                    {{ form.leavetype }}
-                </div>
-                <div class="form-group">
-                    {{ form.fromdate.label_tag }}
-                    {{ form.fromdate }}
-                </div>
-                <div class="form-group">
-                    {{ form.todate.label_tag }}
-                    {{ form.todate }}
-                </div>
-                  
-                <div class="form-group">
-                    {{ form.description.label_tag }}
-                    {{ form.description }}
-                </div>
-                <button class="btn btn-primary" name="apply" type="submit">SUBMIT</button>
+    <form method="POST" name="apply_leave_form" id="apply_leave_form">
+        {% csrf_token %}
+        <div class="card-body">
+            <p class="text-muted font-14 mb-4">Please fill out the form below.</p>
+            <div class="form-group">
+                {{ form.leavetype.label_tag }}
+                {{ form.leavetype }}
             </div>
-        </form>
-    </div>
+            <div class="form-group">
+                {{ form.fromdate.label_tag }}
+                {{ form.fromdate }}
+            </div>
+            <div class="form-group">
+                {{ form.todate.label_tag }}
+                {{ form.todate }}
+            </div>
+            <div class="form-group">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+            </div>
+            <button id="form_submit" class="btn btn-primary" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
 
-    <!-- Add jQuery and Bootstrap JavaScript links at the end of the body -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
- 
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#apply_leave_form').on('submit', function(e) {
+            var form = $(this);
+            // Disable the submit button to prevent multiple submissions
+            $('#form_submit').attr('disabled', true);
+            form.submit();
+        });
+    });
+</script>
 
 {% endblock content %}

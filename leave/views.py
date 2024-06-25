@@ -93,7 +93,6 @@ def update_leave_type(request, lid):
     return render(request, 'leaves/update_leave_type.html', context)
 
 
-
 @login_required
 def apply_leave(request):
     error = None
@@ -109,7 +108,7 @@ def apply_leave(request):
             try:
                 leavetype = LeaveType.objects.get(leavetype=leavetype_str)
             except LeaveType.DoesNotExist:
-                return render(request, 'leaves/apply_leave.html', {
+                return render(request, 'employee/apply_leave.html', {
                     'form': form,
                     'error': 'Invalid leave type selected.'
                 })
@@ -120,13 +119,23 @@ def apply_leave(request):
             except Employee.DoesNotExist:
                 error = "Employee profile not found for the current user."
                 return render(request, 'employee/apply_leave.html', {'form': form, 'error': error})
+            
+            # Check leave balance for the specified leave type
+            try:
+                leave_balance = EmployeeLeaveBalance.objects.get(employee=employee, leave_type=leavetype)
+            except EmployeeLeaveBalance.DoesNotExist:
+                error = "Leave balance not found for the specified leave type."
+                return render(request, 'employee/apply_leave.html', {'form': form, 'error': error})
 
             business_days = calculate_business_days(fromdate, todate)
             current_date = timezone.now().date()
+
             if business_days <= 0:
-                error = "End Date should be after Starting Date"
+                error = "End Date should be after Starting Date."
             elif fromdate < current_date or todate < current_date:
-                error = "Please correct date and retry"
+                error = "Please correct the date and retry."
+            elif business_days > leave_balance.balance:
+                error = f"You do not have enough leave days. You have {leave_balance.balance} days available."
             else:
                 Leave.objects.create(
                     employee=employee,
@@ -138,15 +147,14 @@ def apply_leave(request):
                     days=business_days
                 )
                 msg = "Leave application submitted successfully."
-
+                
+                
         else:
             error = "Form is not valid."
     else:
         form = LeaveForm()
     
-    user_notifications = Notification.objects.filter(recipient=request.user, is_read = False).order_by('-timestamp')
-
-    return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg, 'notifications':user_notifications})
+    return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg,})
 
 
 
