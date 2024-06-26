@@ -161,6 +161,13 @@ def logout(request):
     # Clear session data
     request.session.flush()
     return redirect('accounts:employee_login')  # Redirect to the 'index' URL name or any other URL
+
+
+@login_required
+def employee_profile(request, empcode):
+    employee = get_object_or_404(Employee, empcode=empcode)
+    return render(request, 'employee/employee_profile.html', {'employee': employee})
+
 @login_required()
 def update_profile(request, empcode):
 

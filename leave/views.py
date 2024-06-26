@@ -153,8 +153,9 @@ def apply_leave(request):
             error = "Form is not valid."
     else:
         form = LeaveForm()
+    user_notifications = Notification.objects.filter(recipient=request.user, is_read = False).order_by('-timestamp')
     
-    return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg,})
+    return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg,'notifications':user_notifications})
 
 
 

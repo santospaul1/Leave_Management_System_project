@@ -12,6 +12,7 @@ urlpatterns = [
     path('view_employee_leaves/<str:empcode>/', view_employee_leaves, name='view_employee_leaves'),
     path('delete_employee/', views.delete_employee, name='delete_employee'),
     path('update_profile/<str:empcode>/', views.update_profile, name='update_profile'),
+    path('employee_profile/<str:empcode>/', views.employee_profile, name='employee_profile'),
     path('change_password/', change_password, name='change_password'),
     path('logout/', views.logout, name='logout'),
     

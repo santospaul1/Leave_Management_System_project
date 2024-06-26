@@ -27,7 +27,7 @@ class Employee(models.Model):
     lastName = models.CharField(max_length=100)
     email = models.EmailField()
     password = models.CharField(max_length=255)
-    images = models.ImageField(upload_to='images/', null=True)
+    images = models.ImageField(upload_to='images/', null=True, blank=True)
     employee_type = models.CharField(
         max_length=10,
         choices=UN_CHOICES,
