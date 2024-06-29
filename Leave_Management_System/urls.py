@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import include, path
 
 from accounts.views import employee_login
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', employee_login, name='employee_login'),
@@ -32,3 +33,6 @@ urlpatterns = [
     path('notification/', include('notification.urls')),
 
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

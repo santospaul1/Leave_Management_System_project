@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from .views import add_employee, employees, update_employee, view_employee, change_password, view_employee_leaves
 
+
 app_name = 'employee'
 
 urlpatterns = [

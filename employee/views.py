@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from leave.models import EmployeeLeaveBalance, Leave
+from notification.models import Notification
 
 @login_required
 def employees(request):
@@ -153,8 +154,10 @@ def change_password(request):
                 messages.error(request, 'New Password and Confirm Password do not match.')
         else:
             messages.error(request, 'Your current password is wrong.')
+    employee = Employee.objects.get(user=request.user)
+    user_notifications = Notification.objects.filter(recipient=request.user, is_read = False).order_by('-timestamp')
 
-    return render(request, 'employee/change_password.html')
+    return render(request, 'employee/change_password.html', {'employee':employee, 'notifications':user_notifications})
 
 @login_required()
 def logout(request):
@@ -166,7 +169,9 @@ def logout(request):
 @login_required
 def employee_profile(request, empcode):
     employee = get_object_or_404(Employee, empcode=empcode)
-    return render(request, 'employee/employee_profile.html', {'employee': employee})
+    user_notifications = Notification.objects.filter(recipient=request.user, is_read = False).order_by('-timestamp')
+
+    return render(request, 'employee/employee_details.html', {'employee': employee, 'notifications':user_notifications})
 
 @login_required()
 def update_profile(request, empcode):
@@ -176,12 +181,14 @@ def update_profile(request, empcode):
   form = ProfileUpdateForm(instance=employee)
 
   if request.method == 'POST':
-    form = ProfileUpdateForm(request.POST, instance=employee)
+    form = ProfileUpdateForm(request.POST,request.FILES, instance=employee)
     if form.is_valid():
       form.save()
       return redirect('leave:apply_leave')
+  user_notifications = Notification.objects.filter(recipient=request.user, is_read = False).order_by('-timestamp')
 
-  return render(request, 'employee/update_profile.html', {'form': form, 'employee': employee})
+
+  return render(request, 'employee/update_profile.html', {'form': form, 'employee': employee, 'notifications':user_notifications})
 
 
 

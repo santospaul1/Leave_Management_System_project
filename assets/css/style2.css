@@ -1,0 +1,39 @@
+.container {
+    text-align: center;  /* Center content horizontally */
+  }
+  
+  .employee-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;  /* Needed for absolute positioning of employee name */
+  }
+  
+  .profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;  /* Make image circular */
+    overflow: hidden;  /* Prevent image overflow */
+  }
+  
+  .profile-image img {
+    width: 100%;  /* Fill the entire image container */
+    height: 100%;  /* Fill the entire image container */
+    object-fit: cover;  /* Ensure image covers the entire area */
+  }
+  
+  .employee-name {
+    position: absolute;  /* Position name on top of the image */
+    top: 90%;  /* Vertical positioning (adjust as needed) */
+    left: 50%;  /* Horizontal positioning (adjust as needed) */
+    transform: translate(-50%, -50%);  /* Center the name within the image container */
+    color: white;  /* White text color */
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-decoration: none;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.7);  /* Optional text shadow for better readability on images */
+  }
+  .a {
+    color: white;
+  }
+  

@@ -1,65 +1,76 @@
 {% extends 'employee/main.html' %}
 {% block content %}
+{% load static %}
     <!-- Place your HTML content here, including the update profile form -->
-    <form method="post" action="{% url 'employee:update_profile' user.employee.empcode %}">
-            {% csrf_token %}
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="id_images">Image</label>
-                        {{ form.images }}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="id_firstName">First Name:</label>
-                        {{ form.firstName }}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="id_lastName">Last Name:</label>
-                        {{ form.lastName }}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="id_mobileno">Mobile Number:</label>
-                        {{ form.mobileno }}
-                    </div>
+    <form method="post" action="{% url 'employee:update_profile' user.employee.empcode %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="id_firstName">First Name:</label>
+                    {{ form.firstName }}
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="id_country">Country:</label>
-                        {{ form.country }}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="id_address">Address:</label>
-                        {{ form.address }}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="id_city">City:</label>
-                        {{ form.city }}
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="id_firstName">gender:</label>
-                                {{ form.gender }}
-                            </div>
-                        </div>
-                        </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="id_lastName">Last Name:</label>
+                    {{ form.lastName }}
                 </div>
             </div>
-
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="id_mobileno">Mobile Number:</label>
+                    {{ form.mobileno }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="id_country">Country:</label>
+                    {{ form.country }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="id_address">Address:</label>
+                    {{ form.address }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="id_city">City:</label>
+                    {{ form.city }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="id_gender">Gender:</label>
+                    {{ form.gender }}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="id_images">Image</label>
+                    {% if employee.images %}
+                        <img id="image-preview" src="{{ employee.images.url }}" alt="Profile Image" style="width: 100px; height: 100px;">
+                    {% else %}
+                        <img id="image-preview" src="{% static 'default.jpg' %}" alt="Profile Image" style="width: 100px; height: 100px;">
+                    {% endif %}
+                    {{ form.images }}
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <script>
+        document.getElementById('id_images').onchange = function(event) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById('image-preview').src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        };
+    </script>
 {% endblock %}

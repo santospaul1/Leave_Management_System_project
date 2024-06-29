@@ -153,9 +153,10 @@ def apply_leave(request):
             error = "Form is not valid."
     else:
         form = LeaveForm()
+    employee = Employee.objects.get(user=request.user)
     user_notifications = Notification.objects.filter(recipient=request.user, is_read = False).order_by('-timestamp')
     
-    return render(request, 'employee/apply_leave.html', {'form': form, 'error': error, 'msg': msg,'notifications':user_notifications})
+    return render(request, 'employee/apply_leave.html', {'form': form, 'employee': employee, 'error': error, 'msg': msg,'notifications':user_notifications})
 
 
 
@@ -174,10 +175,13 @@ def employee_leave_history(request):
     # Filter leave history by the Employee instance
     leave_history = Leave.objects.filter(employee=employee).order_by('-id')
     status = Leave.status
+    user_notifications = Notification.objects.filter(recipient=request.user, is_read = False).order_by('-timestamp')
 
     context = {
         'status': status,
-        'leave_history': leave_history
+        'leave_history': leave_history,
+        'employee':employee,
+        'notifications':user_notifications
     }
 
     return render(request, 'employee/leave_history.html', context)
@@ -186,9 +190,12 @@ def employee_leave_history(request):
 def leave_balance(request): #Calculates leave balance
     employee = Employee.objects.get(user=request.user)
     leave_balances = EmployeeLeaveBalance.objects.filter(employee=employee)
+    user_notifications = Notification.objects.filter(recipient=request.user, is_read = False).order_by('-timestamp')
+
     context = {
         'employee': employee,
-        'leave_balances': leave_balances
+        'leave_balances': leave_balances,
+        'notifications':user_notifications
     }
     return render(request, 'leaves/leave_balance.html', context)
 

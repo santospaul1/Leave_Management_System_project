@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <style>
+      
       .nav_bar {
         text-align: end;
         padding-top: 2px;
@@ -54,7 +55,7 @@
         <div class="p-4">
           <ul class="list-unstyled components mb-5">
             <li class="{% if request.resolver_match.url_name == 'leave_balance' %}active{% endif %}">
-              <a href="{% url 'leave:leave_balance' %}"><span class="fa fa-bars mr-3 text-white"></span> Balance</a>
+              <a href="{% url 'leave:leave_balance' %}" ><span class="fa fa-bars mr-3 text-white"></span> Balance</a>
             </li>
             <li class="{% if request.resolver_match.url_name == 'apply_leave' %}active{% endif %}">
               <a href="{% url 'leave:apply_leave' %}"><span class="fa fa-paper-plane mr-3 text-white"></span> Apply Leave</a>
@@ -62,11 +63,7 @@
             <li class="{% if request.resolver_match.url_name == 'employee_leave_history' %}active{% endif %}">
               <a href="{% url 'leave:employee_leave_history' %}"><span class="fa fa-history mr-3 text-white"></span> Leave History</a>
             </li>
-            <li class="{% if request.resolver_match.url_name == 'update_profile' %}active{% endif %}">
-              
-              <a href="{% url 'employee:update_profile' user.employee.empcode %}"><span class="fa fa-user mr-3 text-white"></span>Profile</a>
-            
-            </li>
+           
             <li class="{% if request.resolver_match.url_name == 'change_password' %}active{% endif %}">
               <a href="{% url 'employee:change_password' %}"><span class="fa fa-asterisk  mr-3 text-white"></span>Change Password</a>
             </li>
@@ -80,30 +77,30 @@
           </div>
         </div>
       </nav>
-       
+    
       <div id="content" class="p-4 p-md-5 pt-5">
+  
         <div class="nav_bar">
-          <h5>Welcome {{ user }} &emsp;
-            <div class="dropdown notification-bell">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-bell"></i>
-                <span id="notification-count" class="badge">{{ notifications|length }}</span>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
-                {% for notification in notifications %}
-                  <a class="dropdown-item" href="{% url 'notifications:notification_detail' notification.id %}">{{ notification.message }}</a>
-                {% empty %}
-                  <a class="dropdown-item" href="#">No notifications</a>
-                {% endfor %}
-              </div>
+          <div class="dropdown notification-bell d-inline-flex align-items-center">  <button class="btn btn-secondary dropdown-toggle" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-bell"></i>
+              <span id="notification-count" class="badge">{{ notifications|length }}</span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
+              {% for notification in notifications %}
+                <a class="dropdown-item" href="{% url 'notifications:notification_detail' notification.id %}">{{ notification.message }}</a>
+              {% empty %}
+                <a class="dropdown-item" href="#">No notifications</a>
+              {% endfor %}
             </div>
-            <a href="{% url 'accounts:employee_login' %}"><i class="fa fa-power-off" aria-hidden="true"></i></a>
-          </h5>
+          </div>
+          <a class="ml-3" href="{% url 'employee:logout' %}"><i class="fa fa-power-off " aria-hidden="true" alt="Logout " style="font-size: 2em;"></i></a>
         </div>
-
+      
+        {% include 'employee/employee_profile.html' %}
             
       
         {% block content %}
+        
         {% endblock %}
       </div>
     </div>
