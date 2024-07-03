@@ -16,11 +16,6 @@
           <img src="{% static 'images/user.png' %}" alt="Default Profile Picture">
         {% endif %}
       </div>
-
-      <h1 class="employee-name">
-        <a href="{% url 'employee:update_profile' user.employee.empcode %}" class="text-white">Edit</a> 
-        <a href="{% url 'employee:employee_profile' user.employee.empcode %}" class="text-white">View</a>
-      </h1>
     </div>
     </div>
 

@@ -63,12 +63,7 @@
             <li class="{% if request.resolver_match.url_name == 'employee_leave_history' %}active{% endif %}">
               <a href="{% url 'leave:employee_leave_history' %}"><span class="fa fa-history mr-3 text-white"></span> Leave History</a>
             </li>
-           
-            <li class="{% if request.resolver_match.url_name == 'change_password' %}active{% endif %}">
-              <a href="{% url 'employee:change_password' %}"><span class="fa fa-asterisk  mr-3 text-white"></span>Change Password</a>
-            </li>
-
-            
+                       
           </ul>
           <div class="footer">
             <p>
@@ -93,7 +88,19 @@
               {% endfor %}
             </div>
           </div>
-          <a class="ml-3" href="{% url 'employee:logout' %}"><i class="fa fa-power-off " aria-hidden="true" alt="Logout " style="font-size: 2em;"></i></a>
+          
+            <div class="user-profile pull-right">
+                <img class="avatar user-thumb" src="{% static 'images/admin.png' %}" alt="avatar">
+                <h4 class="user-name " data-toggle="dropdown">{{ employee.firstName }} <i class="fa fa-angle-down"></i></h4>
+                <div class="dropdown-menu ">
+                    <a class="dropdown-item" href="{% url 'employee:logout' %}">Log Out</a>
+                    <a class="dropdown-item" href="{% url 'employee:change_password' %}">Change Password</a>
+                    <a class="dropdown-item" href="{% url 'employee:update_profile' user.employee.empcode %}">Edit Profile</a>
+                    <a class="dropdown-item" href="{% url 'employee:employee_profile' user.employee.empcode %}">View Profile</a>
+                    
+                </div>
+            </div>
+          
         </div>
       
         {% include 'employee/employee_profile.html' %}
