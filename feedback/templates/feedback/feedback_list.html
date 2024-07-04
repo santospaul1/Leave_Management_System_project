@@ -1,0 +1,25 @@
+{% extends 'admin/main.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>User Feedback</h2>
+    <div class="list-group">
+        {% for feedback in feedbacks %}
+        <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ feedback.user.username }}</h5>
+                <small>{{ feedback.created_at|date:"Y-m-d H:i" }}</small>
+            </div>
+            <p class="mb-1">{{ feedback.comment }}</p>
+            <small>
+                <strong>Sentiment:</strong> {{ feedback.get_sentiment_category }} &emsp;
+                <strong>Subjectivity:</strong> {{ feedback.sentiment_subjectivity }}
+            </small>
+        </div>
+        {% empty %}
+        <div class="list-group-item list-group-item-action">
+            No feedback available.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

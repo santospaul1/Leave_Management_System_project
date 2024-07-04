@@ -12,7 +12,7 @@ class LeaveForm(forms.Form):
     fromdate = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     todate = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
     leavetype = forms.ChoiceField(choices=[('', 'Select Leave Type')], required=True)
-    description = forms.CharField(widget=forms.Textarea(attrs={'rows': 5}))
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows': 2}))
 
     def __init__(self, *args, **kwargs):
         super(LeaveForm, self).__init__(*args, **kwargs)

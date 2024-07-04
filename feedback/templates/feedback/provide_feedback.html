@@ -1,0 +1,10 @@
+
+{% extends 'employee/main.html' %}
+{% block content %}
+<h2>Provide Feedback</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+</form>
+{% endblock %}

@@ -31,6 +31,7 @@ urlpatterns = [
     path('leave/', include('leave.urls')),
     path('holiday/', include('holiday.urls')),
     path('notification/', include('notification.urls')),
+    path('feedback/', include('feedback.urls')),
 
 ]
 if settings.DEBUG:
