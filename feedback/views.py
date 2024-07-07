@@ -1,5 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+
+from employee.models import Employee
+from notification.models import Notification
 from .forms import FeedbackForm
 from .models import Feedback
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
@@ -25,7 +28,9 @@ def provide_feedback(request):
             return redirect('thank_you')
     else:
         form = FeedbackForm()
-    return render(request, 'feedback/provide_feedback.html', {'form': form})
+    employee = Employee.objects.get(user=request.user)
+    user_notifications = Notification.objects.filter(recipient=request.user, is_read = False).order_by('-timestamp')
+    return render(request, 'feedback/provide_feedback.html', {'form': form, 'employee':employee, 'notifications':user_notifications})
 
 @login_required
 def feedback_list(request):
