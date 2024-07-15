@@ -43,7 +43,7 @@ def employee_login(request):
                 else:
                     error = 'Your account is inactive. Please contact the administrator for assistance.'
             except:
-                messages.error(request, "Sorry, login using your employee details.")
+                error = "Sorry, login using your employee details."
 
         else:
             error = 'Invalid username or password.'

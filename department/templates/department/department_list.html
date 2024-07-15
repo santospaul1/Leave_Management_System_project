@@ -5,7 +5,14 @@
 
 
 {% if user.is_authenticated %}
-    
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
 
 <!---
 view department -->
