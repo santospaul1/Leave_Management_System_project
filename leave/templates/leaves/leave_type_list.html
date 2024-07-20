@@ -3,6 +3,15 @@
 {% block content %}
 <h1>Leave Types</h1>
 
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
 <center><a href="{% url 'leave:add_leave_type' %}" class="btn btn-sm btn-info">Add New Leave Type</a></center>
     <!-- Page title area end -->
     <div class="main-content-inner">

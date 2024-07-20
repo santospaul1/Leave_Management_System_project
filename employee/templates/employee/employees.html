@@ -2,6 +2,15 @@
 
 {% block content %}
 
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="{% if message.tags %}alert alert-{{ message.tags }}{% endif %}" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
  <center><a href="{% url 'employee:add_employee' %}" class="btn btn-sm btn-info">Add New Employee</a></center>
  <button onclick="window.print()"><i class="fa fa-print"></i></button>
                         <div class="card-body">

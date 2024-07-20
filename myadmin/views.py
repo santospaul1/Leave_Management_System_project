@@ -13,6 +13,7 @@ from .models import Admin
 
 # Create your views here.
 def admin_login(request):
+    error=None
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -24,10 +25,10 @@ def admin_login(request):
                 login(request, user)
                 return redirect('myadmin:dashboard')
             except Admin.DoesNotExist:
-                messages.error(request, 'You are not authorized to access this area')
+                error = 'You are not authorized to access this area'
         else:
-            messages.error(request, 'Invalid username or password')
-    return render(request, 'admin/admin_login.html')
+            error='Invalid username or password'
+    return render(request, 'admin/admin_login.html',{'error': error})
 
 
 @login_required
