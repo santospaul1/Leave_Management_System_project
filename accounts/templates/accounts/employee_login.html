@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login</title>
+    <title>Employee Login</title>
     <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/logins.css' %}">
@@ -14,15 +14,14 @@
 
     <!-- login area start -->
     <div class="login-area">
-        <div class="container">
             <div class="login-box ptb--100">
                 <form method="POST" name="signin">
                     {% csrf_token %}
                     <div class="login-form-head">
                         <h4 class="text-center">Employee Login Panel</h4>
-                        <p class="text-center" style="margin-top: 30px;">Employee Leave Management System</p>
+                        
                     </div>
-                    <div class="login-form-body">
+                    <div class="login-form-body" style="margin-top: 50px;">
                         {% if error %}
                         <div class="alert alert-danger mb-4" role="alert">
                             {{ error }}
@@ -56,7 +55,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        
     </div>
 
     <!-- Add jQuery and Bootstrap JavaScript links at the end of the body -->

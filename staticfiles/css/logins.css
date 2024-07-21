@@ -1,4 +1,5 @@
 .login-area {
+    background: url(../images/bg/singin-bg.jpg) center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
