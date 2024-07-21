@@ -103,7 +103,7 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown">
                   {% for notification in notifications %}
-                    <a class="dropdown-item" href="{% url 'notifications:mark_as_read' notification.id %}">{{ notification.message }}</a>
+                  <a class="dropdown-item" href="{% url 'notifications:notification_detail' notification.id %}">{{ notification.message }}</a>
                   {% empty %}
                     <a class="dropdown-item" href="#">No notifications</a>
                   {% endfor %}
@@ -125,6 +125,7 @@
     <script src="{% static 'js/main.js' %}"></script>
 
     <!-- JavaScript for real-time notifications -->
+
     <script>
       function updateNotifications() {
         $.getJSON("{% url 'notifications:notifications' %}", function(data) {
@@ -143,5 +144,6 @@
 
       setInterval(updateNotifications, 5000);
     </script>
+
 </body>
 </html>
