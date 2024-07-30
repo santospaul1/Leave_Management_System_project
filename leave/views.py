@@ -254,7 +254,6 @@ def employee_leave_details(request, leave_id):
             else:
                 messages.success(request, msg)
             
-
         else:
             error = "Please correct the form errors."
             messages.error(request, error)
@@ -265,8 +264,7 @@ def employee_leave_details(request, leave_id):
         'form': form,
         'leave': leave,
         'error': error,
-        'msg': msg,
-        
+        'msg': msg,  
     }
 
     return render(request, 'leaves/leave_details.html', context)
@@ -302,15 +300,40 @@ def pending_leaves(request):
 @login_required
 def employees_on_leave_per_department(request):
     current_date = timezone.now().date()
-    leaves = Leave.objects.filter(fromdate__lte=current_date, todate__gte=current_date, status=1)
-    departments = Department.objects.all().order_by("department_name")
-
+    
+    # Filter leaves where the current date is between the start and end date
+    current_leaves = Leave.objects.filter(fromdate__lte=current_date, todate__gte=current_date, status=1)
+    
+    # Group leaves by department
+    departments = Department.objects.all()
     department_leave_data = {}
 
     for department in departments:
-        employees_on_leave = Employee.objects.filter(department=department, leave__in=leaves)
-        if employees_on_leave:
-            department_leave_data[department] = employees_on_leave
+        employees_on_leave = Employee.objects.filter(department=department, leave__in=current_leaves)
+        if employees_on_leave.exists():
+            department_leave_data[department] = {}
+            for employee in employees_on_leave:
+                current_leave = current_leaves.filter(employee=employee).first()
+                if current_leave:
+                    department_leave_data[department][employee] = current_leave
 
     return render(request, 'leaves/department_leave.html', {'department_leave_data': department_leave_data})
+
+@login_required
+def employees_going_on_leave_per_department(request):
+    current_date = timezone.now().date()
+    
+    # Filter upcoming leaves
+    upcoming_leaves = Leave.objects.filter(fromdate__gt=current_date, status=1).order_by('fromdate')
+    
+    # Group leaves by department
+    departments = Department.objects.all()
+    department_leave_data = {}
+
+    for department in departments:
+        department_leaves = upcoming_leaves.filter(employee__department=department)
+        if department_leaves.exists():
+            department_leave_data[department] = department_leaves
+
+    return render(request, 'leaves/upcoming_leaves.html', {'department_leave_data': department_leave_data})
 

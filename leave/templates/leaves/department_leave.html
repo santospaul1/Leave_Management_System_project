@@ -1,30 +1,40 @@
 
 {% extends 'admin/main.html' %}
 
-{% block content %}
-  <h1> Departments</h1>
 
-  {% for department, employees in department_leave_data.items %}
-    <h3 class="text-primary">{{ department.department_name }}</h3>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Employee Name</th>
-          <th>Leave Type</th>
-          <th>From Date</th>
-          <th>To Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for employee in employees %}
-          <tr>
-            <td>{{ employee.user.get_full_name }}</td>
-            <td>{{ employee.leave_set.first.leavetype }}</td>
-            <td>{{ employee.leave_set.first.fromdate }}</td>
-            <td>{{ employee.leave_set.first.todate }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
+<a href="{% url 'leave:employees_going_on_leave_per_department' %}">Employees Going on Leave</a>
+
+{% block content %}
+<h2>Employees Currently on Leave by Department</h2>
+{% for department, employees in department_leave_data.items %}
+    <h3>{{ department.department_name }}</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Employee Code</th>
+                <th>Employee Name</th>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+            {% for leave in employee.leave_set.all %}
+            <tr>
+                <td>{{ employee.empcode }}</td>
+                <td>{{ employee.firstName }} {{ employee.lastName }}</td>
+                <td>{{ leave.leaveType.leaveTypeName }}</td>
+                <td>{{ leave.fromdate }}</td>
+                <td>{{ leave.todate }}</td>
+                <td>{{ leave.get_status_display }}</td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </tbody>
     </table>
-  {% endfor %}
+{% empty %}
+    <p>No employees currently on leave.</p>
+{% endfor %}
 {% endblock %}

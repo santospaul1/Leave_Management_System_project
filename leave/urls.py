@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import add_leave_type, apply_leave, approved_leaves, declined_leaves, employee_leave_history, employees_on_leave_per_department, leave_balance, leave_type_list, leave_type_section, leaves_history, pending_leaves, update_leave_type
+from .views import add_leave_type, apply_leave, approved_leaves, declined_leaves, employee_leave_history, employees_going_on_leave_per_department, employees_on_leave_per_department, leave_balance, leave_type_list, leave_type_section, leaves_history, pending_leaves, update_leave_type
 
 app_name = 'leave'
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path('employee_leave_history/', employee_leave_history, name='employee_leave_history'),
     path('apply_leave/', apply_leave, name='apply_leave'),
     path('employees_on_leave_per_department/', employees_on_leave_per_department, name='employees_on_leave_per_department'),
+    path('employees_going_on_leave_per_department/', employees_going_on_leave_per_department, name='employees_going_on_leave_per_department'),
     
 
 ]
