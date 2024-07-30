@@ -3,7 +3,7 @@
 
 
 {% block content %}
-<a href="{% url 'leave:employees_on_leave_per_department' %}" class="btn btn-primary">Employees on Leave</a>
+<center><a href="{% url 'leave:employees_on_leave_per_department' %}" class="btn btn-primary">Employees on Leave</a></center>
 <h2>Upcoming Leaves</h2>
 {% for department, leaves in department_leave_data.items %}
     <h3 class="text-primary">{{ department.department_name }}</h3>

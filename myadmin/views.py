@@ -110,3 +110,4 @@ def manage_admin(request):
 
     admins = Admin.objects.all()
     return render(request, 'admin/manage_admin.html', {'admins': admins})
+

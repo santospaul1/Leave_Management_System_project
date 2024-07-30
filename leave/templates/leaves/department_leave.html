@@ -1,13 +1,12 @@
 
 {% extends 'admin/main.html' %}
 
-
-<a href="{% url 'leave:employees_going_on_leave_per_department' %}">Employees Going on Leave</a>
-
 {% block content %}
-<h2>Employees Currently on Leave by Department</h2>
+<center><a href="{% url 'leave:employees_going_on_leave_per_department' %}" class="btn btn-primary">Employees Going on Leave</a></center>
+<h2>Employees Currently on Leave </h2>
+
 {% for department, employees in department_leave_data.items %}
-    <h3>{{ department.department_name }}</h3>
+    <h3 class="text-primary">{{ department.department_name }}</h3>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -20,17 +19,15 @@
             </tr>
         </thead>
         <tbody>
-            {% for employee in employees %}
-            {% for leave in employee.leave_set.all %}
+            {% for employee, leave in employees.items %}
             <tr>
                 <td>{{ employee.empcode }}</td>
                 <td>{{ employee.firstName }} {{ employee.lastName }}</td>
                 <td>{{ leave.leaveType.leaveTypeName }}</td>
                 <td>{{ leave.fromdate }}</td>
                 <td>{{ leave.todate }}</td>
-                <td>{{ leave.get_status_display }}</td>
+                <td><span style="color: green">Approved <i class="fa fa-check-square-o"></i></span></td>
             </tr>
-            {% endfor %}
             {% endfor %}
         </tbody>
     </table>
