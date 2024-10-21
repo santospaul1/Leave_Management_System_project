@@ -1,0 +1,192 @@
+.img{
+    height: 2%;
+}
+#experience {
+    padding: 20px;
+}
+
+#experience h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: black;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+    color: aqua;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card h3 span {
+    font-size: 0.9em;
+    color: white;
+}
+
+.card ul {
+    padding-left: 20px;
+}
+
+.card ul li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    color: white;
+}
+
+#experience {
+    padding: 20px;
+}
+
+#experience h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.resume-wrap {
+    background-color: black;
+    margin: 20px 0;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px; /* Ensures all cards have at least this height */
+}
+
+.resume-wrap:hover {
+    transform: translateY(-5px);
+}
+
+.resume-wrap .date {
+    font-weight: 900;
+    font-size: 26px;
+    color: #ffbd39;
+}
+
+.resume-wrap h2 {
+    font-size: 26px;
+    color: white;
+}
+
+.resume-wrap p {
+    color: white;
+}
+
+.resume-wrap span {
+    color: white;
+}
+
+.resume-wrap .position {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* Align the buttons or clickable links at the bottom */
+.resume-wrap a {
+    align-self: flex-start;
+    margin-top: auto; /* Push the link to the bottom */
+}
+
+/* Flexbox layout to ensure uniformity */
+.container .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container .col-md-4 {
+    display: flex;
+    flex: 1;
+    
+    justify-content: center;
+}
+
+.resume-wrap a:hover {
+    color: #fff;
+    background-color: #007bff;
+}
+.resume-wrap li{
+    color: #fff;
+    text-align: left;
+}
+
+
+
+.container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto; }
+        @media (min-width: 576px) {
+          .container {
+            max-width: 540px; } }
+        @media (min-width: 768px) {
+          .container {
+            max-width: 720px; } }
+        @media (min-width: 992px) {
+          .container {
+            max-width: 960px; } }
+        @media (min-width: 1200px) {
+          .container {
+            max-width: 1140px; } }
+      
+      .container-fluid {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto; }
+      
+     /* Ensure consistent layout for service cards */
+/* Ensure consistent layout for service cards */
+
+
+/* Make sure the row container behaves as flex */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Set the color of the active nav-link to green */
+
+
+  #about img {
+    max-width: 200px; /* Adjust the size as needed */
+    width: 100%;
+    height: auto;
+  }
+  
+  .nav-link.active {
+    font-weight: bold;
+    background-color: aqua;
+    border-radius: 20px;
+    color: #007bff; /* Example active color */
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  .social a {
+    color: #fff;
+    margin: 5px;
+  }
+  
+  
