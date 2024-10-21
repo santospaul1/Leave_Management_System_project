@@ -134,7 +134,8 @@ The system follows **Third Normal Form (3NF)** for database design, ensuring dat
 ![Screenshot of Leave Management System](images/dashboard.png)
 
 
-##Contributors
--Santos Paul Amiani - Developer
-##License
--This project is licensed under the MIT License - see the LICENSE file for details.
+<h2>Contributors</h2>
+Santos Paul Amiani - Developer
+
+<h2>License</h2>
+This project is licensed under the MIT License - see the LICENSE file for details.
