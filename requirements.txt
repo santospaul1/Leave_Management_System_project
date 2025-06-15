@@ -2,4 +2,8 @@ Django==5.2.3
 joblib==1.5.1
 nltk==3.9.1
 pillow==11.2.1
+<<<<<<< HEAD
+=======
+textblob
+>>>>>>> d2480da1c25e47e2ea3ae59166f7bab476e427e1
 
